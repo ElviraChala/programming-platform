@@ -5,10 +5,7 @@ import lombok.*;
 
 @Entity
 @Table(name = "users")
-@Setter
-@Getter
-@AllArgsConstructor
-@NoArgsConstructor
+@Data
 @Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
