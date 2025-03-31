@@ -10,21 +10,21 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    protected Long id;
 
     @Column(name = "username", nullable = false, unique = true)
-    private String username;
+    protected String username;
 
     @Column(name = "name")
-    private String name;
+    protected String name;
 
     @Column(name = "password", nullable = false)
-    private String password;
+    protected String password;
 
     @Column(name = "email", unique = true)
-    private String email;
+    protected String email;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private Role role;
+    protected Role role;
 }
