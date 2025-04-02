@@ -2,7 +2,9 @@ package com.elvira.programming_platform.coverter;
 
 import com.elvira.programming_platform.dto.AdminDTO;
 import com.elvira.programming_platform.model.Admin;
+import org.springframework.stereotype.Component;
 
+@Component
 public class AdminConverter {
     public Admin toModel(AdminDTO source) {
         Admin target = new Admin();

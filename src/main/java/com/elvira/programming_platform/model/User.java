@@ -26,5 +26,5 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    protected Role role;
+    protected Role role = Role.STUDENT;
 }

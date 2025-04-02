@@ -2,7 +2,9 @@ package com.elvira.programming_platform.coverter;
 
 import com.elvira.programming_platform.dto.CourseDTO;
 import com.elvira.programming_platform.model.Course;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CourseConverter {
     public Course toModel(CourseDTO source) {
         Course target = new Course();

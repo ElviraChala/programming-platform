@@ -3,6 +3,7 @@ package com.elvira.programming_platform.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -17,5 +18,5 @@ public class Course {
     private String name;
 
     @ManyToMany(mappedBy = "courses")
-    private Set<Student> students;
+    private Set<Student> students = new HashSet<>();
 }

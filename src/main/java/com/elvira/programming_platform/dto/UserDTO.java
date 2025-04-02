@@ -10,5 +10,5 @@ public class UserDTO {
     protected String name;
     protected String password;
     protected String email;
-    protected Role role;
+    protected Role role = Role.STUDENT;
 }
