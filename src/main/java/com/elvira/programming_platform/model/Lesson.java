@@ -14,7 +14,7 @@ public class Lesson {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "orderIndex")
+    @Column(name = "order_index")
     private int orderIndex;
 
     @ManyToOne

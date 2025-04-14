@@ -18,6 +18,7 @@ public class Question {
     @ElementCollection
     private List<String> options;
 
+    @Column(name = "correct_answer")
     private String correctAnswer;
 
     @ManyToOne

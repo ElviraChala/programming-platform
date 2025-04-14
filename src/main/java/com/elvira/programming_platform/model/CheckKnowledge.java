@@ -12,8 +12,8 @@ import java.util.List;
 public class CheckKnowledge {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private Long id;
+
     @OneToMany(mappedBy = "test", cascade = CascadeType.ALL)
     private List<Question> questions = new ArrayList<>();
 }

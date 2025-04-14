@@ -12,5 +12,6 @@ public class Theory {
     private Long id;
 
     @Lob
+    @Column(name = "content")
     private String content;
 }
