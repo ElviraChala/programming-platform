@@ -20,7 +20,7 @@ public class Course {
     @Column(name="description")
     private String description;
 
-    @ManyToMany(mappedBy = "courses")//?
+    @ManyToMany(mappedBy = "courses")
     private Set<Student> students = new HashSet<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)

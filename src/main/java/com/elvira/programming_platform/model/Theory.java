@@ -14,4 +14,8 @@ public class Theory {
     @Lob
     @Column(name = "content")
     private String content;
+
+    @OneToOne
+    @JoinColumn(name = "lesson_id")
+    private Lesson lesson;
 }

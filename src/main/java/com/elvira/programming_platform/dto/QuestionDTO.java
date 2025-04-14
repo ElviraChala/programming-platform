@@ -1,6 +1,5 @@
 package com.elvira.programming_platform.dto;
 
-import com.elvira.programming_platform.model.CheckKnowledge;
 import lombok.Data;
 
 import java.util.List;
@@ -11,5 +10,5 @@ public class QuestionDTO {
     private String text;
     private List<String> options;
     private String correctAnswer;
-    private CheckKnowledge checkKnowledge;
+    private CheckKnowledgeDTO checkKnowledge;
 }

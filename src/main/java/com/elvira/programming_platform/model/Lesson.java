@@ -3,6 +3,8 @@ package com.elvira.programming_platform.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "lesson")
 @Data
@@ -27,6 +29,6 @@ public class Lesson {
     @OneToOne(cascade = CascadeType.ALL)
     private CheckKnowledge checkKnowledge;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private ProgrammingTask programmingTask;
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
+    private Set<ProgrammingTask> programmingTask;
 }

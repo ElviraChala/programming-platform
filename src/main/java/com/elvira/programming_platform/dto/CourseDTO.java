@@ -10,4 +10,5 @@ public class CourseDTO {
     private Long id;
     private String name;
     private Set<Long> studentsId = new HashSet<>();
+    private Set<Long> coursesIds = new HashSet<>();
 }
