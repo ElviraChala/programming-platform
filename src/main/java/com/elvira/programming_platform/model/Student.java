@@ -12,6 +12,8 @@ public class Student extends User{
     @Column(name = "score")
     private int score;
 
+
+    //TODO
     @ManyToMany
     @JoinTable(
             name = "student_course",

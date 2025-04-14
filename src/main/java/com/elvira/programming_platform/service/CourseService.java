@@ -7,7 +7,6 @@ import com.elvira.programming_platform.repository.CourseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -37,7 +36,7 @@ public class CourseService {
         List<Course> findCourses = (List<Course>) courseRepository.findAll();
         return findCourses.stream()
                 .map(courseConverter::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CourseDTO updateCourse(CourseDTO newCourseDTO) {

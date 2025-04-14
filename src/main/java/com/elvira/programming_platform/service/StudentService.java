@@ -7,7 +7,6 @@ import com.elvira.programming_platform.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -37,7 +36,7 @@ public class StudentService {
         List<Student> findStudents = (List<Student>) studentRepository.findAll();
         return findStudents.stream()
                 .map(studentConverter::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public StudentDTO updateStudent(StudentDTO newStudentDTO) {

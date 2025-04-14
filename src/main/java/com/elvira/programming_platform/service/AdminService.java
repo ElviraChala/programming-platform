@@ -7,7 +7,6 @@ import com.elvira.programming_platform.repository.AdminRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class AdminService {
@@ -37,7 +36,7 @@ public class AdminService {
         List<Admin> findAdmins = (List<Admin>) adminRepository.findAll();
         return findAdmins.stream()
                 .map(adminConverter::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public AdminDTO updateAdmin(AdminDTO newAdminDTO) {
