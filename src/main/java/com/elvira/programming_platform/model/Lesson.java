@@ -3,6 +3,8 @@ package com.elvira.programming_platform.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "lesson")
 @Data
@@ -21,12 +23,12 @@ public class Lesson {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Theory theory;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private CheckKnowledge checkKnowledge;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private ProgrammingTask programmingTask;
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<ProgrammingTask> programmingTasks;
 }

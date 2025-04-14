@@ -25,5 +25,10 @@ public class ProgrammingTask {
     @Column(name = "real_output")
     private String realOutput;
 
+    @Column(name = "expected_output")
     private String expectedOutput;
+
+    @ManyToOne
+    @JoinColumn(name = "lesson_id")
+    private Lesson lesson;
 }

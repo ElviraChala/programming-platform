@@ -22,6 +22,6 @@ public class Question {
     private String correctAnswer;
 
     @ManyToOne
-    @JoinColumn(name = "checkKnowledge_id")
+    @JoinColumn(name = "check_knowledge_id")
     private CheckKnowledge checkKnowledge;
 }

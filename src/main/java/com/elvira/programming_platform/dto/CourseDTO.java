@@ -9,5 +9,6 @@ import java.util.Set;
 public class CourseDTO {
     private Long id;
     private String name;
-    private Set<Long> studentsId = new HashSet<>();
+    private Set<Long> studentsIds = new HashSet<>();
+    private Set<Long> coursesIds = new HashSet<>();
 }

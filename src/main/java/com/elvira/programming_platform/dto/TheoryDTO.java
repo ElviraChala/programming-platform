@@ -6,4 +6,5 @@ import lombok.Data;
 public class TheoryDTO {
     private Long id;
     private String content;
+    private Long lessonId;
 }

@@ -9,4 +9,5 @@ public class ProgrammingTaskDTO {
     private String description;
     private String starterCode;
     private String expectedOutput;
+    private Long lessonId;
 }
