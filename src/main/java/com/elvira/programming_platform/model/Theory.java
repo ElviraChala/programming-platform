@@ -15,7 +15,7 @@ public class Theory {
     @Column(name = "content")
     private String content;
 
-    @OneToOne(mappedBy = "lesson")
+    @OneToOne()
     @JoinColumn(name = "lesson_id")
     private Lesson lesson;
 }

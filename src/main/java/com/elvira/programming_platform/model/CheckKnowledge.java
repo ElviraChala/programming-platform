@@ -16,4 +16,7 @@ public class CheckKnowledge {
 
     @OneToMany(mappedBy = "checkKnowledge", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
+
+    @OneToOne(mappedBy = "checkKnowledge")
+    private Lesson lesson;
 }

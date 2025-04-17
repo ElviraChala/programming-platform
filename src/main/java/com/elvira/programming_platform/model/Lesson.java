@@ -23,7 +23,7 @@ public class Lesson {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "lesson", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Theory theory;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
