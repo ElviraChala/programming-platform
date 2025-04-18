@@ -9,8 +9,8 @@ public class LessonDTO {
     private Long id;
     private String name;
     private int orderIndex;
-    private CourseDTO course;
+    private Long courseId;
     private TheoryDTO theory;
-    private CheckKnowledgeDTO checkKnowledge;
-    private Set<ProgrammingTaskDTO> programmingTask;
+    private Long checkKnowledgeId;
+    private Set<Long> programmingTaskIds;
 }
