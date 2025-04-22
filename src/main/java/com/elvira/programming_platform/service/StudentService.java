@@ -4,6 +4,7 @@ import com.elvira.programming_platform.coverter.StudentConverter;
 import com.elvira.programming_platform.dto.StudentDTO;
 import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.repository.StudentRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,14 +13,17 @@ import java.util.List;
 public class StudentService {
     private final StudentRepository studentRepository;
     private final StudentConverter studentConverter;
+    private final PasswordEncoder passwordEncoder;
 
-    public StudentService(StudentRepository studentRepository, StudentConverter studentConverter) {
+    public StudentService(StudentRepository studentRepository, StudentConverter studentConverter, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
         this.studentConverter = studentConverter;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public StudentDTO createStudent(StudentDTO studentDTO) {
         Student studentModel = studentConverter.toModel(studentDTO);
+        studentModel.setPassword(passwordEncoder.encode(studentModel.getPassword()));
         Student savedStudent = studentRepository.save(studentModel);
         return studentConverter.toDTO(savedStudent);
     }

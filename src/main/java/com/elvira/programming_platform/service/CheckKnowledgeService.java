@@ -12,7 +12,8 @@ public class CheckKnowledgeService {
     private final CheckKnowledgeRepository checkKnowledgeRepository;
     private final CheckKnowledgeConverter checkKnowledgeConverter;
 
-    public CheckKnowledgeService(CheckKnowledgeRepository checkKnowledgeRepository, CheckKnowledgeConverter checkKnowledgeConverter) {
+    public CheckKnowledgeService(CheckKnowledgeRepository checkKnowledgeRepository,
+                                 CheckKnowledgeConverter checkKnowledgeConverter) {
         this.checkKnowledgeRepository = checkKnowledgeRepository;
         this.checkKnowledgeConverter = checkKnowledgeConverter;
     }

@@ -22,8 +22,8 @@ public class CheckKnowledgeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(checkKnowledgeService.createCheckKnowledge(checkKnowledgeDTO));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CheckKnowledgeDTO> readCheckKnowledgeById(@PathVariable Long id) {
+    @GetMapping
+    public ResponseEntity<CheckKnowledgeDTO> readCheckKnowledgeById(@RequestParam Long id) {
         CheckKnowledgeDTO dto = checkKnowledgeService.readCheckKnowledgeById(id);
         return dto != null ? ResponseEntity.ok(dto) : ResponseEntity.notFound().build();
     }
