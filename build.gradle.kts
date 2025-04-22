@@ -29,6 +29,7 @@ dependencies {
 //	testImplementation("org.junit.jupiter:junit-jupiter-engine:5.13.0-M2")
 //	testImplementation("org.mockito:mockito-core:5.17.0")
 	testImplementation("org.springframework.boot:spring-boot-starter-test:3.4.4")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.4.4")
 }
 
 tasks.withType<Test> {
