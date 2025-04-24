@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("theory")
+@RequestMapping("/theory")
 public class TheoryController {
     private final TheoryService theoryService;
 

@@ -27,6 +27,7 @@ public class StudentConverter {
         target.setEmail(source.getEmail());
         target.setRole(source.getRole());
         target.setScore(source.getScore());
+        target.setIsFirst(source.getIsFirst());
         Set<Long> coursesId = source.getCoursesId();
         if (coursesId != null) {
             target.setCourses(coursesId.stream().map(id -> courseRepository.findById(id).orElse(null)).collect(Collectors.toSet()));
@@ -44,6 +45,7 @@ public class StudentConverter {
         target.setEmail(source.getEmail());
         target.setRole(source.getRole());
         target.setScore(source.getScore());
+        target.setIsFirst(source.getIsFirst());
         Set<Course> courses = source.getCourses();
         if (courses != null) {
             target.setCoursesId(courses.stream().map(Course::getId).collect(Collectors.toSet()));
