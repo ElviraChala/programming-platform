@@ -3,9 +3,9 @@ package com.elvira.programming_platform.service;
 import com.elvira.programming_platform.dto.auth.AuthResponse;
 import com.elvira.programming_platform.dto.auth.LoginRequest;
 import com.elvira.programming_platform.dto.auth.RegisterRequest;
-import com.elvira.programming_platform.model.Role;
+import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.model.User;
-import com.elvira.programming_platform.repository.UserRepository;
+import com.elvira.programming_platform.repository.StudentRepository;
 import com.elvira.programming_platform.security.JwtService;
 import com.elvira.programming_platform.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -18,19 +18,17 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepository repository;
+    private final StudentRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest request) {
-        User user = User.builder()
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.STUDENT)
-                .build();
-        repository.save(user);
-        String jwt = jwtService.generateToken(new UserDetailsImpl(user));
+        Student student = new Student();
+        student.setUsername(request.getUsername());
+        student.setPassword(passwordEncoder.encode(request.getPassword()));
+        repository.save(student);
+        String jwt = jwtService.generateToken(new UserDetailsImpl(student));
         return new AuthResponse(jwt);
     }
 
