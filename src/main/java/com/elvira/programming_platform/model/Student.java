@@ -8,7 +8,7 @@ import java.util.Set;
 @Entity
 @Table(name = "student")
 @Data
-public class Student extends User{
+public class Student extends User {
     @Column(name = "score")
     private int score;
 

@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: programming-platform
+
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/programing_platform_db
+    username: ${DB_USERNAME}
+#    postgres
+    password: ${DB_PASSWORD}
+#    5736
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    generate-ddl: true
+    hibernate.ddl-auto: update
+
+jwt:
+  secret: mT7x59fDfFz$3kLpA1D@Lq9Vb02MzX3r
+  expiration: 86400000
+

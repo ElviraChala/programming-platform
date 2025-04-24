@@ -7,6 +7,9 @@ import lombok.*;
 @Table(name = "users")
 @Data
 @Inheritance(strategy = InheritanceType.JOINED)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
