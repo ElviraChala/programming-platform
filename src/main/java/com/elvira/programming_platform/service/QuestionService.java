@@ -25,9 +25,8 @@ public class QuestionService {
     }
 
     public QuestionDTO readQuestionById(Long id) {
-        Question findQuestion = questionRepository.findById(id).orElse(null);
-        return findQuestion == null ? null :
-                questionConverter.toDTO(findQuestion);
+        Question findQuestion = questionRepository.findById(id).orElseThrow();
+        return questionConverter.toDTO(findQuestion);
     }
 
     public List<QuestionDTO> readAllQuestions() {

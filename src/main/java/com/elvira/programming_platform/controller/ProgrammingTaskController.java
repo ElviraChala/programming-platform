@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin
-@RequestMapping("programming-task")
+@RequestMapping("/programming-task")
 public class ProgrammingTaskController {
     private final ProgrammingTaskService programmingTaskService;
 

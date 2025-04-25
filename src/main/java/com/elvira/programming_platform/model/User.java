@@ -1,5 +1,6 @@
 package com.elvira.programming_platform.model;
 
+import com.elvira.programming_platform.model.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
