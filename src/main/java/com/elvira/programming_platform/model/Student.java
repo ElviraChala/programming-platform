@@ -1,7 +1,7 @@
 package com.elvira.programming_platform.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
 
 import java.util.Set;
 
@@ -20,4 +20,5 @@ public class Student extends User {
     )
     private Set<Course> courses;
 
+    private Boolean isFirst = true;
 }

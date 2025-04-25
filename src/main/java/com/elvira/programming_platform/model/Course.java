@@ -1,6 +1,5 @@
 package com.elvira.programming_platform.model;
 
-import com.elvira.programming_platform.model.enums.Level;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -26,8 +25,4 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Lesson> lessons = new HashSet<>();
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "level", nullable = false)
-    private Level level = Level.LOW;
 }

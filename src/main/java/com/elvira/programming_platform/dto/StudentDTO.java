@@ -8,4 +8,5 @@ import java.util.Set;
 public class StudentDTO extends UserDTO {
     private int score;
     private Set<Long> coursesId;
+    private Boolean isFirst;
 }

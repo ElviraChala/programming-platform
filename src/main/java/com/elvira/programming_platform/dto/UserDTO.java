@@ -1,6 +1,6 @@
 package com.elvira.programming_platform.dto;
 
-import com.elvira.programming_platform.model.enums.Role;
+import com.elvira.programming_platform.model.Role;
 import lombok.Data;
 
 @Data
