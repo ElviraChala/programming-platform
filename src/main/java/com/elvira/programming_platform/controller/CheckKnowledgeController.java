@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/check-knowledge")
+@RequestMapping("check-knowledge")
 public class CheckKnowledgeController {
 
     private final CheckKnowledgeService checkKnowledgeService;

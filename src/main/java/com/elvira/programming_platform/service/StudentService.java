@@ -29,7 +29,10 @@ public class StudentService {
     }
 
     public StudentDTO readStudentById(Long userId) {
-        Student findStudent = studentRepository.findById(userId).orElseThrow();
+        Student findStudent = studentRepository.findById(userId).orElse(null);
+        if (findStudent == null) {
+            return null;
+        }
         return studentConverter.toDTO(findStudent);
     }
 

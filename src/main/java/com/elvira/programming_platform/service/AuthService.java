@@ -4,6 +4,7 @@ import com.elvira.programming_platform.dto.auth.AuthResponse;
 import com.elvira.programming_platform.dto.auth.LoginRequest;
 import com.elvira.programming_platform.dto.auth.RegisterRequest;
 import com.elvira.programming_platform.model.Student;
+import com.elvira.programming_platform.model.User;
 import com.elvira.programming_platform.repository.StudentRepository;
 import com.elvira.programming_platform.security.JwtService;
 import com.elvira.programming_platform.security.UserDetailsImpl;
@@ -26,17 +27,17 @@ public class AuthService {
         Student student = new Student();
         student.setUsername(request.getUsername());
         student.setPassword(passwordEncoder.encode(request.getPassword()));
-        student = repository.save(student);
+        repository.save(student);
         String jwt = jwtService.generateToken(new UserDetailsImpl(student));
-        return new AuthResponse(jwt, student.getId());
+        return new AuthResponse(jwt);
     }
 
     public AuthResponse authenticate(LoginRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
-        Student student = repository.findByUsername(request.getUsername()).orElseThrow();
-        String jwt = jwtService.generateToken(new UserDetailsImpl(student));
-        return new AuthResponse(jwt, student.getId());
+        User user = repository.findByUsername(request.getUsername()).orElseThrow();
+        String jwt = jwtService.generateToken(new UserDetailsImpl(user));
+        return new AuthResponse(jwt);
     }
 }

@@ -1,8 +1,7 @@
 package com.elvira.programming_platform.model;
 
-import com.elvira.programming_platform.model.enums.Level;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Set;
 
@@ -21,9 +20,4 @@ public class Student extends User {
     )
     private Set<Course> courses;
 
-    private Boolean isFirst = true;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "level", nullable = false)
-    private Level level = Level.LOW;
 }

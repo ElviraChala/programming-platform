@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/first-check")
+@RequestMapping("first-check")
 @RequiredArgsConstructor
 public class FirstCheckKnowledgeController {
 
