@@ -52,9 +52,14 @@ public class StudentService {
         return studentConverter.toDTO(updatedStudent);
     }
 
-    public void deleteStudent(Long id) {
-        if (studentRepository.existsById(id)) {
-            studentRepository.deleteById(id);
+    public void deleteStudent(String username) {
+        if (studentRepository.existsByUsername(username)) {
+            studentRepository.deleteByUsername(username);
         }
+    }
+
+    public StudentDTO readStudentByName(String username) {
+        Student student = studentRepository.findByUsername(username).orElseThrow();
+        return studentConverter.toDTO(student);
     }
 }

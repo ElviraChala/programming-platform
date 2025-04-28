@@ -10,6 +10,7 @@ import com.elvira.programming_platform.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,9 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest request) {
+        if (repository.findByUsername(request.getUsername()).isPresent()) {
+            throw new IllegalArgumentException("Username already taken");
+        }
         Student student = new Student();
         student.setUsername(request.getUsername());
         student.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -35,7 +39,8 @@ public class AuthService {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
-        Student student = repository.findByUsername(request.getUsername()).orElseThrow();
+        Student student = repository.findByUsername(request.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + request.getUsername()));
         String jwt = jwtService.generateToken(new UserDetailsImpl(student));
         return new AuthResponse(jwt, student.getId());
     }

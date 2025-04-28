@@ -11,7 +11,7 @@ import java.util.Set;
 @Data
 public class Student extends User {
     @Column(name = "score")
-    private int score;
+    private int score = 0;
 
     @ManyToMany
     @JoinTable(
