@@ -4,6 +4,7 @@ import com.elvira.programming_platform.coverter.StudentConverter;
 import com.elvira.programming_platform.dto.StudentDTO;
 import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.repository.StudentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,9 @@ public class StudentService {
     private final StudentConverter studentConverter;
     private final PasswordEncoder passwordEncoder;
 
-    public StudentService(StudentRepository studentRepository, StudentConverter studentConverter, PasswordEncoder passwordEncoder) {
+    public StudentService(StudentRepository studentRepository,
+                          StudentConverter studentConverter,
+                          PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
         this.studentConverter = studentConverter;
         this.passwordEncoder = passwordEncoder;
@@ -42,13 +45,15 @@ public class StudentService {
 
     public StudentDTO updateStudent(StudentDTO newStudentDTO) {
         Long userId = newStudentDTO.getId();
-        Student findStudent = studentRepository.findById(userId).orElse(null);
-        if (findStudent == null) {
-            return null;
+        Student existingStudent = studentRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + userId));
+
+        if (newStudentDTO.getPassword() != null && !newStudentDTO.getPassword().isBlank()) {
+            String encodedPassword = passwordEncoder.encode(newStudentDTO.getPassword());
+            existingStudent.setPassword(encodedPassword);
         }
 
-        Student studentModel = studentConverter.toModel(newStudentDTO);
-        Student updatedStudent = studentRepository.save(studentModel);
+        Student updatedStudent = studentRepository.save(existingStudent);
         return studentConverter.toDTO(updatedStudent);
     }
 

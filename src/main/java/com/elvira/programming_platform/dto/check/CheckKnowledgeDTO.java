@@ -1,5 +1,6 @@
-package com.elvira.programming_platform.dto;
+package com.elvira.programming_platform.dto.check;
 
+import com.elvira.programming_platform.dto.QuestionDTO;
 import lombok.Data;
 
 import java.util.ArrayList;

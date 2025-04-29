@@ -2,7 +2,7 @@ package com.elvira.programming_platform.coverter;
 
 import com.elvira.programming_platform.dto.QuestionDTO;
 import com.elvira.programming_platform.model.Question;
-import com.elvira.programming_platform.repository.CheckKnowledgeRepository;
+import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -3,7 +3,7 @@ package com.elvira.programming_platform.coverter;
 import com.elvira.programming_platform.dto.LessonDTO;
 import com.elvira.programming_platform.model.Lesson;
 import com.elvira.programming_platform.model.ProgrammingTask;
-import com.elvira.programming_platform.repository.CheckKnowledgeRepository;
+import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import com.elvira.programming_platform.repository.CourseRepository;
 import com.elvira.programming_platform.repository.ProgrammingTaskRepository;
 import org.springframework.stereotype.Component;

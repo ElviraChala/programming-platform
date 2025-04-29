@@ -1,6 +1,6 @@
 package com.elvira.programming_platform.coverter;
 
-import com.elvira.programming_platform.dto.FirstCheckKnowledgeDTO;
+import com.elvira.programming_platform.dto.check.FirstCheckKnowledgeDTO;
 import com.elvira.programming_platform.model.FirstCheckKnowledge;
 import com.elvira.programming_platform.model.Question;
 import com.elvira.programming_platform.repository.QuestionRepository;

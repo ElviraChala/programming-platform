@@ -13,7 +13,7 @@ public class Student extends User {
     @Column(name = "score")
     private int score = 0;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "student_course",
             joinColumns = @JoinColumn(name = "student_id"),

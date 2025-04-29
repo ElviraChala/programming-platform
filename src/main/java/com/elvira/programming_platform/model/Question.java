@@ -15,7 +15,7 @@ public class Question {
     @Column(name = "text")
     private String text;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> options;
 
     @Column(name = "correct_answer")

@@ -1,4 +1,4 @@
-package com.elvira.programming_platform.dto;
+package com.elvira.programming_platform.dto.check;
 
 import lombok.Data;
 

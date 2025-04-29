@@ -1,9 +1,9 @@
-package com.elvira.programming_platform.service;
+package com.elvira.programming_platform.service.check;
 
 import com.elvira.programming_platform.coverter.CheckKnowledgeConverter;
-import com.elvira.programming_platform.dto.CheckKnowledgeDTO;
+import com.elvira.programming_platform.dto.check.CheckKnowledgeDTO;
 import com.elvira.programming_platform.model.CheckKnowledge;
-import com.elvira.programming_platform.repository.CheckKnowledgeRepository;
+import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import org.springframework.stereotype.Service;
 
 @Service

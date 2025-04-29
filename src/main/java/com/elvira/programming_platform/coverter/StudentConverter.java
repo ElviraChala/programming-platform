@@ -30,7 +30,7 @@ public class StudentConverter {
         target.setIsFirst(source.getIsFirst());
         target.setLevel(source.getLevel());
         Set<Long> coursesId = source.getCoursesId();
-        if (coursesId != null) {
+        if (coursesId != null && !coursesId.isEmpty()) {
             target.setCourses(coursesId.stream().map(id -> courseRepository.findById(id).orElse(null)).collect(Collectors.toSet()));
         }
         return target;
@@ -49,7 +49,7 @@ public class StudentConverter {
         target.setIsFirst(source.getIsFirst());
         target.setLevel(source.getLevel());
         Set<Course> courses = source.getCourses();
-        if (courses != null) {
+        if (courses != null && !courses.isEmpty()) {
             target.setCoursesId(courses.stream().map(Course::getId).collect(Collectors.toSet()));
         }
         return target;

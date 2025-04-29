@@ -1,7 +1,7 @@
 package com.elvira.programming_platform.controller;
 
-import com.elvira.programming_platform.dto.CheckKnowledgeDTO;
-import com.elvira.programming_platform.service.CheckKnowledgeService;
+import com.elvira.programming_platform.dto.check.CheckKnowledgeDTO;
+import com.elvira.programming_platform.service.check.CheckKnowledgeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
