@@ -48,8 +48,11 @@ public class StudentService {
         Student existingStudent = studentRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Student not found with id: " + userId));
 
+        existingStudent.setName(newStudentDTO.getName());
+        existingStudent.setEmail(newStudentDTO.getEmail());
+
         if (newStudentDTO.getPassword() != null && !newStudentDTO.getPassword().isBlank()) {
-            String encodedPassword = passwordEncoder.encode(newStudentDTO.getPassword());
+            String encodedPassword = passwordEncoder.encode(newStudentDTO.getPassword().trim());
             existingStudent.setPassword(encodedPassword);
         }
 
