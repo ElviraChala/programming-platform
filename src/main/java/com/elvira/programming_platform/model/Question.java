@@ -1,5 +1,6 @@
 package com.elvira.programming_platform.model;
 
+import com.elvira.programming_platform.model.enums.Level;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,4 +25,8 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "check_knowledge_id")
     private CheckKnowledge checkKnowledge;
+
+    @Column(name = "level", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Level level;
 }

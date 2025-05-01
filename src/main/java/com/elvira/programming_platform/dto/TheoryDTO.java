@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class TheoryDTO {
     private Long id;
-    private String content;
+    private String fileName;
     private Long lessonId;
 }

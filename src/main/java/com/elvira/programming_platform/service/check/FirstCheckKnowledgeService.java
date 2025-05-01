@@ -1,14 +1,15 @@
 package com.elvira.programming_platform.service.check;
 
 import com.elvira.programming_platform.coverter.FirstCheckKnowledgeConverter;
-import com.elvira.programming_platform.dto.check.FirstCheckKnowledgeDTO;
 import com.elvira.programming_platform.dto.check.AnswerDTO;
+import com.elvira.programming_platform.dto.check.CheckEvaluationResultDTO;
+import com.elvira.programming_platform.dto.check.FirstCheckKnowledgeDTO;
 import com.elvira.programming_platform.model.FirstCheckKnowledge;
 import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.model.enums.Level;
-import com.elvira.programming_platform.repository.check.FirstCheckKnowledgeRepository;
 import com.elvira.programming_platform.repository.QuestionRepository;
 import com.elvira.programming_platform.repository.StudentRepository;
+import com.elvira.programming_platform.repository.check.FirstCheckKnowledgeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,36 +35,83 @@ public class FirstCheckKnowledgeService {
         return firstCheckKnowledgeConverter.toDTO(check);
     }
 
-    public double checkAnswer(List<AnswerDTO> answerDTOS) {
-        int score = 0;
+    public CheckEvaluationResultDTO checkAnswer(List<AnswerDTO> answerDTOS) {
+        double totalScore = 0;
+
+        int lowScore = 0;
+        int mediumScore = 0;
+        int highScore = 0;
+
+        int lowQuestionCount = 0;
+        int mediumQuestionCount = 0;
+        int highQuestionCount = 0;
+
+        double lowScorePercentage = 0;
+        double mediumScorePercentage = 0;
+        double highScorePercentage = 0;
 
         FirstCheckKnowledgeDTO check = getFirstCheckKnowledge();
         List<Long> questionIds = check.getQuestionIds();
 
         String answer;
         String correctAnswer;
+        Level level;
 
         for (int i = 0; i < answerDTOS.size(); i++) {
             answer = answerDTOS.get(i).getCurrentAnswer();
+            level = questionRepository.findById(questionIds.get(i)).orElseThrow().getLevel();
             correctAnswer = questionRepository.findById(questionIds.get(i)).orElseThrow().getCorrectAnswer();
+            switch (level) {
+                case LOW:
+                    lowQuestionCount++;
+                    break;
+                case MEDIUM:
+                    mediumQuestionCount++;
+                    break;
+                case HIGH:
+                    highQuestionCount++;
+            }
+
+
             if (answer.equals(correctAnswer)) {
-                score++;
+                switch (level) {
+                    case LOW:
+                        lowScore++;
+                        break;
+                    case MEDIUM:
+                        mediumScore++;
+                        break;
+                    case HIGH:
+                        highScore++;
+                        break;
+                }
             }
         }
 
+        lowScorePercentage = lowScore * 100.0 / lowQuestionCount;
+        mediumScorePercentage = mediumScore * 100.0 / mediumQuestionCount;
+        highScorePercentage = highScore * 100.0 / highQuestionCount;
+
         int maxScore = getFirstCheckKnowledge().getQuestionIds().size();
-        return score * 100.0 / maxScore;
+        totalScore = (lowScore + mediumScore + highScore) * 100.0 / maxScore;
+
+        return new CheckEvaluationResultDTO(totalScore,
+                lowScorePercentage,
+                mediumScorePercentage,
+                highScorePercentage);
     }
 
-    public Level setLevel(String studentUsername, double score) {
+
+    public Level setLevel(String studentUsername, double lowScore, double mediumScore, double highScore) {
         Student student = studentRepository.findByUsername(studentUsername)
                 .orElseThrow(() -> new RuntimeException("Student not found"));
         Level newLevel = Level.LOW;
-        if (score >= 36 && score <= 75) {
+
+        if (mediumScore > 75) {
             newLevel = Level.MEDIUM;
-        }
-        if (score >= 76 && score <= 100) {
-            newLevel = Level.HIGH;
+            if (highScore > 75) {
+                newLevel = Level.HIGH;
+            }
         }
 
         student.setLevel(newLevel);

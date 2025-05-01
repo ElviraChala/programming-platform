@@ -17,7 +17,7 @@ public class TheoryConverter {
     public Theory toModel(TheoryDTO source) {
         Theory target = new Theory();
         target.setId(source.getId());
-        target.setContent(source.getContent());
+        target.setFileName(source.getFileName());
         target.setLesson(lessonRepository.findById(source.getLessonId()).orElse(null));
         return target;
     }
@@ -25,7 +25,7 @@ public class TheoryConverter {
     public TheoryDTO toDTO(Theory source) {
         TheoryDTO target = new TheoryDTO();
         target.setId(source.getId());
-        target.setContent(source.getContent());
+        target.setFileName(source.getFileName());
         target.setLessonId(source.getLesson().getId());
         return target;
     }

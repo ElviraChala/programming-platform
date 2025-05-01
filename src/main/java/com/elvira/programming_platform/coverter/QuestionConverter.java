@@ -27,6 +27,8 @@ public class QuestionConverter {
         target.setCheckKnowledge(checkKnowledgeRepository.findById(source.getCheckKnowledgeId())
                 .orElse(null));
 
+        target.setLevel(source.getLevel());
+
         return target;
     }
 
@@ -44,6 +46,7 @@ public class QuestionConverter {
 
             target.setCheckKnowledgeId(source.getCheckKnowledge().getId());
         }
+        target.setLevel(source.getLevel());
 
         return target;
     }

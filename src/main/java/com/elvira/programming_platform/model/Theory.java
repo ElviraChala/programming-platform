@@ -11,9 +11,8 @@ public class Theory {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Lob
     @Column(name = "content")
-    private String content;
+    private String fileName;
 
     @OneToOne()
     @JoinColumn(name = "lesson_id")

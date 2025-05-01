@@ -41,7 +41,6 @@ public class StudentController {
 
     @PutMapping
     public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO) {
-        // TODO Тут треба гарно доопрацювати зміну пароля, так щоб воно його знову шифрувало, а не просто записувало в БД
         return ResponseEntity.ok(studentService.updateStudent(studentDTO));
     }
 

@@ -1,5 +1,6 @@
 package com.elvira.programming_platform.controller;
 
+import com.elvira.programming_platform.dto.check.CheckEvaluationResultDTO;
 import com.elvira.programming_platform.dto.check.FirstCheckKnowledgeDTO;
 import com.elvira.programming_platform.dto.check.AnswerDTO;
 import com.elvira.programming_platform.dto.check.CheckResultDTO;
@@ -34,15 +35,18 @@ public class FirstCheckKnowledgeController {
         String token = authHeader.replace("Bearer ", "");
         String username = jwtService.extractUsername(token);
 
-        double score = firstCheckKnowledgeService.checkAnswer(answers);
+        CheckEvaluationResultDTO checkResult = firstCheckKnowledgeService.checkAnswer(answers);
         Level level;
         try {
-            level = firstCheckKnowledgeService.setLevel(username, score);
+            level = firstCheckKnowledgeService.setLevel(username,
+                    checkResult.getLowScore(),
+                    checkResult.getMediumScore(),
+                    checkResult.getHighScore());
         } catch (EntityNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
 
-        CheckResultDTO result = new CheckResultDTO(score, level);
+        CheckResultDTO result = new CheckResultDTO(checkResult.getTotalScore(), level);
         return ResponseEntity.ok(result);
     }
 }
