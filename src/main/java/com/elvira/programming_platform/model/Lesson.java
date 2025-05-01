@@ -1,13 +1,15 @@
 package com.elvira.programming_platform.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Entity
 @Table(name = "lesson")
-@Data
+@Getter
+@Setter
 public class Lesson {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

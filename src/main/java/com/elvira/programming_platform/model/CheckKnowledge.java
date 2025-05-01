@@ -14,7 +14,7 @@ public class CheckKnowledge {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "checkKnowledge", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "checkKnowledge", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Question> questions = new ArrayList<>();
 
     @OneToOne(mappedBy = "checkKnowledge")

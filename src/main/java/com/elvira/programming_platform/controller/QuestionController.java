@@ -28,6 +28,12 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.readQuestionById(id));
     }
 
+    @GetMapping("/by-check-knowledge/{checkKnowledgeId}")
+    public ResponseEntity<List<QuestionDTO>> readAllByCheckKnowledgeId(@PathVariable Long checkKnowledgeId) {
+        List<QuestionDTO> questions = questionService.readAllByCheckKnowledgeId(checkKnowledgeId);
+        return ResponseEntity.ok(questions);
+    }
+
     @GetMapping("/all")
     public ResponseEntity<List<QuestionDTO>> readAllQuestions() {
         return ResponseEntity.ok(questionService.readAllQuestions());

@@ -47,6 +47,8 @@ public class CourseConverter {
             target.setLessons(lessons);
         }
 
+        target.setLevel(source.getLevel());
+
         return target;
     }
 
@@ -71,6 +73,9 @@ public class CourseConverter {
                     .collect(Collectors.toSet());
             target.setLessonIds(lessonIds);
         }
+
+        target.setLevel(source.getLevel());
+
 
         return target;
     }

@@ -1,12 +1,15 @@
 package com.elvira.programming_platform.model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "programming_task")
-@Data
+@Getter
+@Setter
 public class ProgrammingTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +18,6 @@ public class ProgrammingTask {
     @Column(name = "title")
     private String title;
 
-    @Lob
     @Column(name = "description")
     private String description;
 
@@ -30,5 +32,6 @@ public class ProgrammingTask {
 
     @ManyToOne
     @JoinColumn(name = "lesson_id")
+    @JsonBackReference
     private Lesson lesson;
 }

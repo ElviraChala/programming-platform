@@ -2,12 +2,14 @@ package com.elvira.programming_platform.controller;
 
 import com.elvira.programming_platform.dto.CourseDTO;
 import com.elvira.programming_platform.service.CourseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @CrossOrigin
 @RequestMapping("/course")
@@ -30,6 +32,7 @@ public class CourseController {
 
     @GetMapping("/all")
     public ResponseEntity<List<CourseDTO>> readAllCourses() {
+        log.info(String.valueOf(courseService.readAllCourses()));
         return ResponseEntity.ok(courseService.readAllCourses());
     }
 

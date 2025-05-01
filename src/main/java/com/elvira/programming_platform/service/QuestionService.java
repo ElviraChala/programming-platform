@@ -29,6 +29,13 @@ public class QuestionService {
         return questionConverter.toDTO(findQuestion);
     }
 
+    public List<QuestionDTO> readAllByCheckKnowledgeId(Long checkKnowledgeId) {
+        List<Question> questions = questionRepository.findAllByCheckKnowledgeId(checkKnowledgeId);
+        return questions.stream()
+                .map(questionConverter::toDTO)
+                .toList();
+    }
+
     public List<QuestionDTO> readAllQuestions() {
         List<Question> findQuestions = (List<Question>) questionRepository.findAll();
         return findQuestions.stream()

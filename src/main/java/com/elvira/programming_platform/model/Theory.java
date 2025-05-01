@@ -1,11 +1,16 @@
 package com.elvira.programming_platform.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = "lesson") // уникає рекурсії
+@EqualsAndHashCode(exclude = "lesson") // уникає рекурсії
 @Entity
 @Table(name = "theory")
-@Data
 public class Theory {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
