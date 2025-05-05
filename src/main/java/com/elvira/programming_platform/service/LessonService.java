@@ -2,12 +2,19 @@ package com.elvira.programming_platform.service;
 
 import com.elvira.programming_platform.coverter.LessonConverter;
 import com.elvira.programming_platform.dto.LessonDTO;
+import com.elvira.programming_platform.dto.TheoryDTO;
 import com.elvira.programming_platform.model.Lesson;
 import com.elvira.programming_platform.repository.LessonRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+@Slf4j
 @Service
 public class LessonService {
     private final LessonConverter lessonConverter;
@@ -25,9 +32,11 @@ public class LessonService {
     }
 
     public LessonDTO readLessonById(Long id) {
-        Lesson findLesson = lessonRepository.findById(id).orElse(null);
-        return findLesson == null ? null :
-                lessonConverter.toDTO(findLesson);
+        Lesson findLesson = lessonRepository.findById(id).orElseThrow();
+        LessonDTO lessonDTO = lessonConverter.toDTO(findLesson);
+        TheoryDTO theoryDTO = lessonDTO.getTheory();
+        theoryDTO.setFileName(getHtml("/static/html/theory/" + theoryDTO.getFileName()));
+        return lessonDTO;
     }
 
     public List<LessonDTO> readAllLessons() {
@@ -50,6 +59,15 @@ public class LessonService {
     public void deleteLesson(Long id) {
         if (lessonRepository.existsById(id)) {
             lessonRepository.deleteById(id);
+        }
+    }
+
+    private String getHtml(String htmlResourcePath) {
+        var resource = new ClassPathResource(htmlResourcePath);
+        try {
+            return StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

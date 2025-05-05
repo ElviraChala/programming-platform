@@ -1,6 +1,7 @@
 package com.elvira.programming_platform.service;
 
 import com.elvira.programming_platform.dto.auth.AuthResponse;
+import com.elvira.programming_platform.dto.auth.EmailRequest;
 import com.elvira.programming_platform.dto.auth.LoginRequest;
 import com.elvira.programming_platform.dto.auth.RegisterRequest;
 import com.elvira.programming_platform.model.Student;
@@ -22,6 +23,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final EmailService emailService;
 
     public AuthResponse register(RegisterRequest request) {
         if (repository.findByUsername(request.getUsername()).isPresent()) {
@@ -43,5 +45,13 @@ public class AuthService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + request.getUsername()));
         String jwt = jwtService.generateToken(new UserDetailsImpl(student));
         return new AuthResponse(jwt, student.getId());
+    }
+
+    public void forgotPassword(EmailRequest request) {
+        String email = request.getEmail();
+        if (repository.findByEmail(email).isEmpty()) {
+            throw new IllegalArgumentException("Email does not exist");
+        }
+        emailService.sendSimpleEmail(email, "Test", "Test text");
     }
 }

@@ -70,4 +70,8 @@ public class StudentService {
         Student student = studentRepository.findByUsername(username).orElseThrow();
         return studentConverter.toDTO(student);
     }
+
+    public boolean isStudentExists(String email) {
+        return studentRepository.findByEmail(email).isPresent();
+    }
 }

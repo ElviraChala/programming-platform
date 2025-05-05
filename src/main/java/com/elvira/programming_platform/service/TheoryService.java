@@ -4,8 +4,12 @@ import com.elvira.programming_platform.coverter.TheoryConverter;
 import com.elvira.programming_platform.dto.TheoryDTO;
 import com.elvira.programming_platform.model.Theory;
 import com.elvira.programming_platform.repository.TheoryRepository;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StreamUtils;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service

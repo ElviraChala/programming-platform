@@ -1,6 +1,7 @@
 package com.elvira.programming_platform.controller;
 
 import com.elvira.programming_platform.dto.auth.AuthResponse;
+import com.elvira.programming_platform.dto.auth.EmailRequest;
 import com.elvira.programming_platform.dto.auth.LoginRequest;
 import com.elvira.programming_platform.dto.auth.RegisterRequest;
 import com.elvira.programming_platform.service.AuthService;
@@ -24,5 +25,11 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.authenticate(request));
+    }
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Void> forgotPassword(@RequestBody EmailRequest request) {
+        authService.forgotPassword(request);
+        return ResponseEntity.ok().build();
     }
 }

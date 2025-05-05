@@ -14,7 +14,26 @@ spring:
     generate-ddl: true
     hibernate.ddl-auto: update
     open-in-view: false
+  mail:
+    default-encoding: UTF-8
+    host: smtp.ukr.net
+    port: 465
+    username: devspark@ukr.net
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            enable: true
+          socketFactory:
+            port: 465
+            fallback: false
+            class: javax.net.ssl.SSLSocketFactory
 
 jwt:
   secret: mT7x59fDfFz$3kLpA1D@Lq9Vb02MzX3r
   expiration: 86400000
+
