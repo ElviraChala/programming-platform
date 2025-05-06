@@ -3,7 +3,7 @@ spring:
     name: programming-platform
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/programing_platform_db
+    url: jdbc:postgresql://postgresql:5432/programing_platform_db
     username: ${DB_USERNAME}
 #    postgres
     password: ${DB_PASSWORD}

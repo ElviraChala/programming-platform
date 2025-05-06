@@ -1,11 +1,10 @@
 package com.elvira.programming_platform.controller;
 
-import com.elvira.programming_platform.dto.auth.AuthResponse;
-import com.elvira.programming_platform.dto.auth.EmailRequest;
-import com.elvira.programming_platform.dto.auth.LoginRequest;
-import com.elvira.programming_platform.dto.auth.RegisterRequest;
+import com.elvira.programming_platform.dto.auth.*;
+import com.elvira.programming_platform.security.JwtService;
 import com.elvira.programming_platform.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final AuthService authService;
+    private final JwtService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest request) {
@@ -31,5 +31,17 @@ public class AuthController {
     public ResponseEntity<Void> forgotPassword(@RequestBody EmailRequest request) {
         authService.forgotPassword(request);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<Void> updatePassword(@RequestBody UpdatePasswordRequest request,
+                                               @RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "");
+        String username = jwtService.extractUsername(token);
+        if (username != null && !username.isEmpty()) {
+            authService.updatePassword(username, request);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 }

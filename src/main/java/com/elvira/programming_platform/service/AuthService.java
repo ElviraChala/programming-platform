@@ -1,9 +1,6 @@
 package com.elvira.programming_platform.service;
 
-import com.elvira.programming_platform.dto.auth.AuthResponse;
-import com.elvira.programming_platform.dto.auth.EmailRequest;
-import com.elvira.programming_platform.dto.auth.LoginRequest;
-import com.elvira.programming_platform.dto.auth.RegisterRequest;
+import com.elvira.programming_platform.dto.auth.*;
 import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.repository.StudentRepository;
 import com.elvira.programming_platform.security.JwtService;
@@ -14,6 +11,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -49,9 +48,28 @@ public class AuthService {
 
     public void forgotPassword(EmailRequest request) {
         String email = request.getEmail();
-        if (repository.findByEmail(email).isEmpty()) {
+        Optional<Student> student = repository.findByEmail(email);
+        if (student.isEmpty()) {
             throw new IllegalArgumentException("Email does not exist");
         }
-        emailService.sendSimpleEmail(email, "Test", "Test text");
+
+        String text = "Перейдіть по посиланню для створення нового паролю\n"
+                + "http://dev-spark.space/auth/create-new-password?email=" + email + "&token=" + jwtService.generateToken(new UserDetailsImpl(student.get())) + "\n\n";
+        emailService.sendSimpleEmail(email, "New password", text);
+    }
+
+    public void updatePassword(String userName, UpdatePasswordRequest request) {
+        Optional<Student> student = repository.findByUsername(userName);
+        if (student.isEmpty()) {
+            throw new IllegalArgumentException("Student does not exist");
+        }
+
+        Student existingStudent = student.get();
+        existingStudent.setEmail(request.getEmail());
+        if (request.getPassword() != null && !request.getPassword().isBlank()) {
+            String encodedPassword = passwordEncoder.encode(request.getPassword().trim());
+            existingStudent.setPassword(encodedPassword);
+        }
+        repository.save(existingStudent);
     }
 }
