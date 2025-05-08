@@ -72,4 +72,9 @@ public class AuthService {
         }
         repository.save(existingStudent);
     }
+
+    public Optional<Student> findByUsername(String username) {
+        return repository.findByUsername(username);
+    }
+
 }

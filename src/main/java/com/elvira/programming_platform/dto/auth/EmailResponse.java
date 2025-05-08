@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UpdatePasswordRequest {
-    String email;
-    String password;
+public class EmailResponse {
+    private String email;
 }

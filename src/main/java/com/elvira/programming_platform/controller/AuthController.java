@@ -1,12 +1,15 @@
 package com.elvira.programming_platform.controller;
 
 import com.elvira.programming_platform.dto.auth.*;
+import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.security.JwtService;
 import com.elvira.programming_platform.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -44,4 +47,18 @@ public class AuthController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+    @GetMapping("/check-username")
+    public ResponseEntity<EmailResponse> checkUsername(@RequestParam String username) {
+        Optional<Student> studentOpt = authService.findByUsername(username);
+        if (studentOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        Student student = studentOpt.get();
+        if (student.getEmail() == null || student.getEmail().isBlank()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new EmailResponse(""));
+        }
+        return ResponseEntity.ok(new EmailResponse(student.getEmail()));
+    }
+
 }
