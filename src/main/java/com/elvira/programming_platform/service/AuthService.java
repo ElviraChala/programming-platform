@@ -54,7 +54,7 @@ public class AuthService {
         }
 
         String text = "Перейдіть по посиланню для створення нового паролю\n"
-                + "http://dev-spark.space/auth/create-new-password?email=" + email + "&token=" + jwtService.generateToken(new UserDetailsImpl(student.get())) + "\n\n";
+                + "http://dev-spark.fun/auth/create-new-password?email=" + email + "&token=" + jwtService.generateToken(new UserDetailsImpl(student.get())) + "\n\n";
         emailService.sendSimpleEmail(email, "New password", text);
     }
 
