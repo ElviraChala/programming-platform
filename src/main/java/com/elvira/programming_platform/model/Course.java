@@ -11,9 +11,12 @@ import java.util.Set;
 @Table(name = "course")
 @Data
 public class Course {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_seq")
+    @SequenceGenerator(name = "course_seq", sequenceName = "course_id_seq", allocationSize = 1)
     private Long id;
+
 
     @Column(name = "name")
     private String name;
