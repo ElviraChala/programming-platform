@@ -29,7 +29,7 @@ dependencies {
 	implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
 	implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
 	implementation("org.springframework.boot:spring-boot-starter-mail:3.4.5")
-	implementation("io.fabric8:kubernetes-client:7.2.0")
+	implementation("io.kubernetes:client-java:23.0.0")
 
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")

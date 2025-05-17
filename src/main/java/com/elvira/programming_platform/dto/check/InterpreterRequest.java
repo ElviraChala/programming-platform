@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class InterpreterRequest {
-    private String core;
+    private String code;
 }
