@@ -53,16 +53,21 @@ public class LessonService {
 
     public LessonDTO createLesson(LessonDTO lessonDTO) {
         Lesson lessonModel = lessonConverter.toModel(lessonDTO);
+
         Lesson savedLesson = lessonRepository.save(lessonModel);
+
+        CheckKnowledge checkKnowledge = new CheckKnowledge();
+        checkKnowledge.setLesson(savedLesson);
+        checkKnowledge.setTestWeight(1);
+
+        lessonModel.setCheckKnowledge(checkKnowledgeRepository.save(checkKnowledge));
+        savedLesson = lessonRepository.save(lessonModel);
+
         TheoryDTO theory = lessonDTO.getTheory();
         if (theory != null) {
             theory.setLessonId(savedLesson.getId());
             theoryRepository.save(theoryConverter.toModel(theory));
         }
-        CheckKnowledge checkKnowledge = new CheckKnowledge();
-        checkKnowledge.setLesson(savedLesson);
-        checkKnowledge.setTestWeight(1);
-        checkKnowledgeRepository.save(checkKnowledge);
         savedLesson = lessonRepository.findById(savedLesson.getId()).orElseThrow();
         return lessonConverter.toDTO(savedLesson);
     }
