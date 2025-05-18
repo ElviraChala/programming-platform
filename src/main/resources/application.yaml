@@ -37,3 +37,6 @@ jwt:
   secret: mT7x59fDfFz$3kLpA1D@Lq9Vb02MzX3r
   expiration: 86400000
 
+theory:
+  html:
+    directory: /storage/html/
