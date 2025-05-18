@@ -61,17 +61,16 @@ public class LessonController {
      * @return The file name that was saved
      */
     @PostMapping("/upload-html")
-    public ResponseEntity<String> uploadHtmlFile(
+    public ResponseEntity<Void> uploadHtmlFile(
             @RequestParam("file") MultipartFile file,
             @RequestParam("fileName") String fileName) {
         try {
-            String savedFileName = lessonService.uploadHtmlFile(file, fileName);
-            return ResponseEntity.ok(savedFileName);
+            lessonService.uploadHtmlFile(file, fileName);
+            return ResponseEntity.ok().build();
         } catch (IllegalStateException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to upload file: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 

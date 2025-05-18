@@ -1,5 +1,6 @@
 package com.elvira.programming_platform.controller;
 
+import com.elvira.programming_platform.dto.HtmlContent;
 import com.elvira.programming_platform.dto.TheoryDTO;
 import com.elvira.programming_platform.service.TheoryService;
 import org.springframework.http.HttpStatus;
@@ -44,4 +45,16 @@ public class TheoryController {
         theoryService.deleteTheory(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @GetMapping("/html")
+    public ResponseEntity<HtmlContent> readHtml(@RequestParam Long id) {
+        String html = theoryService.readHtml(id);
+        if (html == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        HtmlContent content = new HtmlContent();
+        content.setContent(html);
+        return ResponseEntity.ok(content);
+    }
+
 }
