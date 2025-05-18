@@ -1,10 +1,14 @@
 package com.elvira.programming_platform.service;
 
 import com.elvira.programming_platform.coverter.LessonConverter;
+import com.elvira.programming_platform.coverter.TheoryConverter;
 import com.elvira.programming_platform.dto.LessonDTO;
 import com.elvira.programming_platform.dto.TheoryDTO;
+import com.elvira.programming_platform.model.CheckKnowledge;
 import com.elvira.programming_platform.model.Lesson;
 import com.elvira.programming_platform.repository.LessonRepository;
+import com.elvira.programming_platform.repository.TheoryRepository;
+import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -27,20 +31,39 @@ public class LessonService {
     private final LessonRepository lessonRepository;
     private final String htmlDirectoryPath;
     private final boolean useExternalDirectory;
+    private final TheoryRepository theoryRepository;
+    private final TheoryConverter theoryConverter;
+    private final CheckKnowledgeRepository checkKnowledgeRepository;
 
     public LessonService(
-            LessonConverter lessonConverter, 
+            LessonConverter lessonConverter,
             LessonRepository lessonRepository,
+            TheoryRepository theoryRepository,
+            TheoryConverter theoryConverter,
+            CheckKnowledgeRepository checkKnowledgeRepository,
             @Value("${theory.html.directory:}") String htmlDirectoryPath) {
         this.lessonConverter = lessonConverter;
         this.lessonRepository = lessonRepository;
         this.htmlDirectoryPath = htmlDirectoryPath;
         this.useExternalDirectory = htmlDirectoryPath != null && !htmlDirectoryPath.isEmpty();
+        this.theoryRepository = theoryRepository;
+        this.theoryConverter = theoryConverter;
+        this.checkKnowledgeRepository = checkKnowledgeRepository;
     }
 
     public LessonDTO createLesson(LessonDTO lessonDTO) {
         Lesson lessonModel = lessonConverter.toModel(lessonDTO);
         Lesson savedLesson = lessonRepository.save(lessonModel);
+        TheoryDTO theory = lessonDTO.getTheory();
+        if (theory != null) {
+            theory.setLessonId(savedLesson.getId());
+            theoryRepository.save(theoryConverter.toModel(theory));
+        }
+        CheckKnowledge checkKnowledge = new CheckKnowledge();
+        checkKnowledge.setLesson(savedLesson);
+        checkKnowledge.setTestWeight(1);
+        checkKnowledgeRepository.save(checkKnowledge);
+        savedLesson = lessonRepository.findById(savedLesson.getId()).orElseThrow();
         return lessonConverter.toDTO(savedLesson);
     }
 
@@ -49,7 +72,9 @@ public class LessonService {
         LessonDTO lessonDTO = lessonConverter.toDTO(findLesson);
         TheoryDTO theoryDTO = lessonDTO.getTheory();
 
-        theoryDTO.setFileName(theoryDTO.getFileName());
+        if (theoryDTO != null) {
+            theoryDTO.setFileName(theoryDTO.getFileName());
+        }
         return lessonDTO;
     }
 

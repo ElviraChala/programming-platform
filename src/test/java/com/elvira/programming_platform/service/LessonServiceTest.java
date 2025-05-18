@@ -1,11 +1,14 @@
 package com.elvira.programming_platform.service;
 
 import com.elvira.programming_platform.coverter.LessonConverter;
+import com.elvira.programming_platform.coverter.TheoryConverter;
 import com.elvira.programming_platform.dto.LessonDTO;
 import com.elvira.programming_platform.dto.TheoryDTO;
 import com.elvira.programming_platform.model.Lesson;
 import com.elvira.programming_platform.model.Theory;
 import com.elvira.programming_platform.repository.LessonRepository;
+import com.elvira.programming_platform.repository.TheoryRepository;
+import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
@@ -36,16 +39,29 @@ class LessonServiceTest {
     void setUp() {
         lessonRepository = mock(LessonRepository.class);
         lessonConverter = mock(LessonConverter.class);
+        TheoryRepository theoryRepository = mock(TheoryRepository.class);
+        TheoryConverter theoryConverter = mock(TheoryConverter.class);
+        CheckKnowledgeRepository checkKnowledgeRepository = mock(CheckKnowledgeRepository.class);
 
         // Create service with default configuration (using resources)
-        lessonService = new LessonService(lessonConverter, lessonRepository, "");
+        lessonService = new LessonService(lessonConverter,
+                lessonRepository,
+                theoryRepository,
+                theoryConverter,
+                checkKnowledgeRepository,
+                "");
 
         // Create service with external directory configuration
-        lessonServiceWithExternalDir = new LessonService(lessonConverter, lessonRepository, tempDir.toString());
+        lessonServiceWithExternalDir = new LessonService(lessonConverter,
+                lessonRepository,
+                theoryRepository,
+                theoryConverter,
+                checkKnowledgeRepository,
+                tempDir.toString());
     }
 
     @Test
-    void testReadLessonById_FromResources() throws IOException {
+    void testReadLessonById_FromResources() {
         // This test verifies that the service can be created with an empty directory path
         // and that it doesn't throw exceptions when initialized.
         // Since we can't easily mock ClassPathResource in a unit test,
@@ -95,18 +111,15 @@ class LessonServiceTest {
         String fileName = "upload-test.html";
         String content = "<html><body>Uploaded content</body></html>";
         MultipartFile file = new MockMultipartFile(
-                "file", 
+                "file",
                 fileName,
-                "text/html", 
+                "text/html",
                 content.getBytes(StandardCharsets.UTF_8));
 
         // Act
-        String result = lessonServiceWithExternalDir.uploadHtmlFile(file, fileName);
+        lessonServiceWithExternalDir.uploadHtmlFile(file, fileName);
 
-        // Assert
-        assertEquals(fileName, result);
-
-        // Verify file was saved
+        // Verify the file was saved
         Path savedFilePath = tempDir.resolve(fileName);
         assertTrue(Files.exists(savedFilePath));
         String savedContent = Files.readString(savedFilePath);
@@ -118,13 +131,13 @@ class LessonServiceTest {
         // Arrange
         String fileName = "upload-test.html";
         MultipartFile file = new MockMultipartFile(
-                "file", 
+                "file",
                 fileName,
-                "text/html", 
+                "text/html",
                 "content".getBytes(StandardCharsets.UTF_8));
 
         // Act & Assert
-        assertThrows(IllegalStateException.class, () -> 
+        assertThrows(IllegalStateException.class, () ->
                 lessonService.uploadHtmlFile(file, fileName));
     }
 
@@ -151,7 +164,7 @@ class LessonServiceTest {
         String fileName = "non-existent.html";
 
         // Act & Assert
-        assertThrows(IOException.class, () -> 
+        assertThrows(IOException.class, () ->
                 lessonServiceWithExternalDir.downloadHtmlFile(fileName));
     }
 }

@@ -1,8 +1,10 @@
 package com.elvira.programming_platform.coverter;
 
 import com.elvira.programming_platform.dto.LessonDTO;
+import com.elvira.programming_platform.model.CheckKnowledge;
 import com.elvira.programming_platform.model.Lesson;
 import com.elvira.programming_platform.model.ProgrammingTask;
+import com.elvira.programming_platform.model.Theory;
 import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import com.elvira.programming_platform.repository.CourseRepository;
 import com.elvira.programming_platform.repository.ProgrammingTaskRepository;
@@ -30,12 +32,12 @@ public class LessonConverter {
         Lesson target = new Lesson();
         if (source.getId() != null && source.getId() > 0) {
             target.setId(source.getId());
+            target.setTheory(theoryConverter.toModel(source.getTheory()));
+            target.setCheckKnowledge(checkKnowledgeRepository.findById(source.getId()).orElse(null));
         }
         target.setName(source.getName());
         target.setOrderIndex(source.getOrderIndex());
         target.setCourse(courseRepository.findById(source.getCourseId()).orElse(null));
-        target.setTheory(theoryConverter.toModel(source.getTheory()));
-        target.setCheckKnowledge(checkKnowledgeRepository.findById(source.getId()).orElse(null));
         if (source.getCheckKnowledgeId() != null) {
             Set<ProgrammingTask> programmingTasks = source.getProgrammingTaskIds()
                     .stream()
@@ -53,8 +55,14 @@ public class LessonConverter {
         target.setName(source.getName());
         target.setOrderIndex(source.getOrderIndex());
         target.setCourseId(source.getCourse().getId());
-        target.setTheory(theoryConverter.toDTO(source.getTheory()));
-        target.setCheckKnowledgeId(source.getCheckKnowledge().getId());
+        Theory theory = source.getTheory();
+        if (theory != null) {
+            target.setTheory(theoryConverter.toDTO(theory));
+        }
+        CheckKnowledge checkKnowledge = source.getCheckKnowledge();
+        if (checkKnowledge != null) {
+            target.setCheckKnowledgeId(checkKnowledge.getId());
+        }
         if (source.getProgrammingTasks() != null) {
             Set<Long> programmingTaskIds = source.getProgrammingTasks()
                     .stream()
