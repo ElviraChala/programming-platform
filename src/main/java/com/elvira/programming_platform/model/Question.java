@@ -2,13 +2,15 @@ package com.elvira.programming_platform.model;
 
 import com.elvira.programming_platform.model.enums.Level;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "question")
-@Data
+@Getter
+@Setter
 public class Question {
     @Id@GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

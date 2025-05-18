@@ -33,4 +33,17 @@ public class Lesson {
 
     @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<ProgrammingTask> programmingTasks;
+
+    @Override
+    public String toString() {
+        return "Lesson{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", orderIndex=" + orderIndex +
+                ", course=" + course +
+                ", theory=" + theory +
+                ", checkKnowledge=" + checkKnowledge +
+                ", programmingTasks=" + programmingTasks +
+                '}';
+    }
 }

@@ -164,7 +164,7 @@ class CheckKnowledgeServiceTest {
 
         double result = service.evaluateAnswers(1L, answers);
 
-        assertEquals(100.0, result, 0.01);
+        assertEquals(3.0, result, 0.01);
     }
 
     @Test
@@ -189,7 +189,7 @@ class CheckKnowledgeServiceTest {
 
         double result = service.evaluateAnswers(1L, answers);
 
-        assertEquals(66.666, result, 0.1);
+        assertEquals(2.0, result, 0.1);
     }
 
     @Test

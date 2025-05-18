@@ -4,10 +4,12 @@ import com.elvira.programming_platform.coverter.ProgrammingTaskConverter;
 import com.elvira.programming_platform.dto.ProgrammingTaskDTO;
 import com.elvira.programming_platform.model.ProgrammingTask;
 import com.elvira.programming_platform.repository.ProgrammingTaskRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ProgrammingTaskService {
     private final ProgrammingTaskConverter programmingTaskConverter;
@@ -52,8 +54,17 @@ public class ProgrammingTaskService {
     }
 
     public void deleteProgrammingTask(Long id) {
-        if (programmingTaskRepository.existsById(id)) {
+        ProgrammingTask programmingTask = programmingTaskRepository.findById(id).orElse(null);
+        if (programmingTask != null) {
+            log.info("delete programming task id:{}", id);
+            // Break the relationship with the lesson before deleting
+            programmingTask.setLesson(null);
+            // Save the updated programming task to persist the change
+            programmingTaskRepository.save(programmingTask);
+            // Now delete the programming task
             programmingTaskRepository.deleteById(id);
+        } else {
+            log.info("delete programming task id:{} not found", id);
         }
     }
 }

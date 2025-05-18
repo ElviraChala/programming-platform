@@ -34,4 +34,17 @@ public class ProgrammingTask {
     @JoinColumn(name = "lesson_id")
     @JsonBackReference
     private Lesson lesson;
+
+    @Override
+    public String toString() {
+        return "ProgrammingTask{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", starterCode='" + starterCode + '\'' +
+                ", realOutput='" + realOutput + '\'' +
+                ", expectedOutput='" + expectedOutput + '\'' +
+                ", lesson=" + lesson +
+                '}';
+    }
 }

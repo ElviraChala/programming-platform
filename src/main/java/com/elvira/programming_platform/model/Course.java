@@ -2,21 +2,22 @@ package com.elvira.programming_platform.model;
 
 import com.elvira.programming_platform.model.enums.Level;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "course")
-@Data
+@Getter
+@Setter
 public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "course_seq")
     @SequenceGenerator(name = "course_seq", sequenceName = "course_id_seq", allocationSize = 1)
     private Long id;
-
 
     @Column(name = "name")
     private String name;

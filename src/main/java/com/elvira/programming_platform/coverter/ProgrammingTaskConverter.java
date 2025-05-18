@@ -16,7 +16,9 @@ public class ProgrammingTaskConverter {
 
     public ProgrammingTask toModel(ProgrammingTaskDTO source) {
         ProgrammingTask target = new ProgrammingTask();
-        target.setId(source.getId());
+        if (source.getId() != null && source.getId() > 0) {
+            target.setId(source.getId());
+        }
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
         target.setStarterCode(source.getStarterCode());

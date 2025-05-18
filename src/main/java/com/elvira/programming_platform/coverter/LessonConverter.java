@@ -28,10 +28,12 @@ public class LessonConverter {
 
     public Lesson toModel(LessonDTO source) {
         Lesson target = new Lesson();
-        target.setId(source.getId());
+        if (source.getId() != null && source.getId() > 0) {
+            target.setId(source.getId());
+        }
         target.setName(source.getName());
         target.setOrderIndex(source.getOrderIndex());
-        target.setCourse(courseRepository.findById(source.getId()).orElse(null));
+        target.setCourse(courseRepository.findById(source.getCourseId()).orElse(null));
         target.setTheory(theoryConverter.toModel(source.getTheory()));
         target.setCheckKnowledge(checkKnowledgeRepository.findById(source.getId()).orElse(null));
         if (source.getCheckKnowledgeId() != null) {
