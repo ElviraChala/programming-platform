@@ -37,7 +37,6 @@ public class CheckKnowledgeController {
     @GetMapping("/{id}/questions")
     public ResponseEntity<List<QuestionDTO>> getQuestionsByCheckKnowledgeId(@PathVariable Long id) {
         List<QuestionDTO> questions = checkKnowledgeService.getQuestionsByCheckKnowledgeId(id);
-        log.info(String.valueOf(questions));
         return questions != null ? ResponseEntity.ok(questions) : ResponseEntity.notFound().build();
     }
 

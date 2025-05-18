@@ -2,8 +2,10 @@ package com.elvira.programming_platform.service;
 
 import com.elvira.programming_platform.coverter.QuestionConverter;
 import com.elvira.programming_platform.dto.QuestionDTO;
+import com.elvira.programming_platform.model.CheckKnowledge;
 import com.elvira.programming_platform.model.Question;
 import com.elvira.programming_platform.repository.QuestionRepository;
+import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,10 +14,12 @@ import java.util.List;
 public class QuestionService {
     private final QuestionConverter questionConverter;
     private final QuestionRepository questionRepository;
+    private final CheckKnowledgeRepository checkKnowledgeRepository;
 
-    public QuestionService(QuestionConverter questionConverter, QuestionRepository questionRepository) {
+    public QuestionService(QuestionConverter questionConverter, QuestionRepository questionRepository, CheckKnowledgeRepository checkKnowledgeRepository) {
         this.questionConverter = questionConverter;
         this.questionRepository = questionRepository;
+        this.checkKnowledgeRepository = checkKnowledgeRepository;
     }
 
     public QuestionDTO createQuestion(QuestionDTO questionDTO) {
@@ -54,7 +58,13 @@ public class QuestionService {
     }
 
     public void deleteQuestion(Long id) {
-        if (questionRepository.existsById(id)) {
+        Question findQuestion = questionRepository.findById(id).orElse(null);
+        if (findQuestion != null) {
+            CheckKnowledge checkKnowledge = findQuestion.getCheckKnowledge();
+            if (checkKnowledge != null) {
+                checkKnowledge.getQuestions().remove(findQuestion);
+                checkKnowledgeRepository.save(checkKnowledge);
+            }
             questionRepository.deleteById(id);
         }
     }

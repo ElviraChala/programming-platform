@@ -16,7 +16,9 @@ public class QuestionConverter {
 
     public Question toModel(QuestionDTO source) {
         Question target = new Question();
-        target.setId(source.getId());
+        if (source.getId() != null && source.getId() >= 0) {
+            target.setId(source.getId());
+        }
         target.setText(source.getText());
 
         if (source.getOptions() != null) {
