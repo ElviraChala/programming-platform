@@ -122,7 +122,11 @@ public class InterpreterService {
             log.info("Pod {} has status {}", podName, status.getPhase());
 
             // Отримуємо логи Pod
-            return coreV1Api.readNamespacedPodLog(podName, NAMESPACE).execute().trim();
+            try {
+                return coreV1Api.readNamespacedPodLog(podName, NAMESPACE).execute().trim();
+            } finally {
+                coreV1Api.deleteNamespacedPod(podName, NAMESPACE).execute();
+            }
 
         } catch (Exception e) {
             return "Failed to get logs: " + e.getMessage();
