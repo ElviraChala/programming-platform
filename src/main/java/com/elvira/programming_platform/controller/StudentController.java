@@ -1,6 +1,7 @@
 package com.elvira.programming_platform.controller;
 
 import com.elvira.programming_platform.dto.StudentDTO;
+import com.elvira.programming_platform.model.enums.Role;
 import com.elvira.programming_platform.security.JwtService;
 import com.elvira.programming_platform.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -45,10 +46,27 @@ public class StudentController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteStudent(@RequestHeader("Authorization") String authHeader) {
+    public ResponseEntity<Void> deleteStudent(@RequestHeader("Authorization") String authHeader,
+                                              @RequestParam Long id) {
         String token = authHeader.replace("Bearer ", "");
         String username = jwtService.extractUsername(token);
-        studentService.deleteStudent(username);
+        StudentDTO studentDTO = studentService.readStudentByName(username);
+        if (studentDTO.getRole() == Role.ADMIN) {
+            studentService.deleteStudent(id);
+        }
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @PostMapping("/{id}/add-score")
+    public ResponseEntity<Void> addScore(@PathVariable Long id, @RequestParam int score) {
+        studentService.addScore(id, score);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/all/leaderboard")
+    public ResponseEntity<List<StudentDTO>> getLeaderboard() {
+        List<StudentDTO> students = studentService.getAllSortedByScore();
+        return ResponseEntity.ok(students);
+    }
+
 }

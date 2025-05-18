@@ -66,6 +66,12 @@ public class StudentService {
         }
     }
 
+    public void deleteStudent(Long id) {
+        if (studentRepository.existsById(id)) {
+            studentRepository.deleteById(id);
+        }
+    }
+
     public StudentDTO readStudentByName(String username) {
         Student student = studentRepository.findByUsername(username).orElseThrow();
         return studentConverter.toDTO(student);
@@ -74,4 +80,20 @@ public class StudentService {
     public boolean isStudentExists(String email) {
         return studentRepository.findByEmail(email).isPresent();
     }
+
+    public void addScore(Long id, Integer score) {
+        Student student = studentRepository.findById(id).orElseThrow();
+
+        int newScore = student.getScore() + score;
+        student.setScore(newScore);
+        studentRepository.save(student);
+    }
+
+    public List<StudentDTO> getAllSortedByScore() {
+        List<Student> students = studentRepository.findAllStudentsOrderedByScore();
+        return students.stream()
+                .map(studentConverter::toDTO)
+                .toList();
+    }
+
 }
