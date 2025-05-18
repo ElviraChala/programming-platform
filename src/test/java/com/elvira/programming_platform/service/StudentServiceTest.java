@@ -2,8 +2,10 @@ package com.elvira.programming_platform.service;
 
 import com.elvira.programming_platform.coverter.StudentConverter;
 import com.elvira.programming_platform.dto.StudentDTO;
+import com.elvira.programming_platform.model.CheckKnowledge;
 import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.repository.StudentRepository;
+import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,12 +17,14 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.spy;
 
 class StudentServiceTest {
 
     private StudentRepository studentRepository;
     private StudentConverter studentConverter;
     private PasswordEncoder passwordEncoder;
+    private CheckKnowledgeRepository checkKnowledgeRepository;
     private StudentService studentService;
 
     @BeforeEach
@@ -28,7 +32,8 @@ class StudentServiceTest {
         studentRepository = mock(StudentRepository.class);
         studentConverter = mock(StudentConverter.class);
         passwordEncoder = mock(PasswordEncoder.class);
-        studentService = new StudentService(studentRepository, studentConverter, passwordEncoder);
+        checkKnowledgeRepository = mock(CheckKnowledgeRepository.class);
+        studentService = new StudentService(studentRepository, studentConverter, passwordEncoder, checkKnowledgeRepository);
     }
 
     @Test
@@ -184,5 +189,29 @@ class StudentServiceTest {
         when(studentRepository.findByUsername("user")).thenReturn(Optional.empty());
 
         assertThrows(NoSuchElementException.class, () -> studentService.readStudentByName("user"));
+    }
+
+    @Test
+    void testAddScore() {
+        // Arrange
+        Long studentId = 1L;
+        Long checkKnowledgeId = 2L;
+
+        Student student = spy(new Student());
+        student.setId(studentId);
+
+        CheckKnowledge checkKnowledge = new CheckKnowledge();
+        checkKnowledge.setId(checkKnowledgeId);
+        checkKnowledge.setTestWeight(10);
+
+        when(studentRepository.findById(studentId)).thenReturn(Optional.of(student));
+        when(checkKnowledgeRepository.findById(checkKnowledgeId)).thenReturn(Optional.of(checkKnowledge));
+
+        // Act
+        studentService.addScore(studentId, checkKnowledgeId);
+
+        // Assert
+        verify(student).addPassedTest(checkKnowledge);
+        verify(studentRepository).save(student);
     }
 }

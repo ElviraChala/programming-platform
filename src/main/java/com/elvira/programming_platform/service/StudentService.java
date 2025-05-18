@@ -2,8 +2,10 @@ package com.elvira.programming_platform.service;
 
 import com.elvira.programming_platform.coverter.StudentConverter;
 import com.elvira.programming_platform.dto.StudentDTO;
+import com.elvira.programming_platform.model.CheckKnowledge;
 import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.repository.StudentRepository;
+import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,13 +17,16 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final StudentConverter studentConverter;
     private final PasswordEncoder passwordEncoder;
+    private final CheckKnowledgeRepository checkKnowledgeRepository;
 
     public StudentService(StudentRepository studentRepository,
                           StudentConverter studentConverter,
-                          PasswordEncoder passwordEncoder) {
+                          PasswordEncoder passwordEncoder,
+                          CheckKnowledgeRepository checkKnowledgeRepository) {
         this.studentRepository = studentRepository;
         this.studentConverter = studentConverter;
         this.passwordEncoder = passwordEncoder;
+        this.checkKnowledgeRepository = checkKnowledgeRepository;
     }
 
     public StudentDTO createStudent(StudentDTO studentDTO) {
@@ -81,11 +86,12 @@ public class StudentService {
         return studentRepository.findByEmail(email).isPresent();
     }
 
-    public void addScore(Long id, Integer score) {
+    public void addScore(Long id, Long checkKnowledgeId) {
         Student student = studentRepository.findById(id).orElseThrow();
+        CheckKnowledge checkKnowledge = checkKnowledgeRepository.findById(checkKnowledgeId)
+                .orElseThrow(() -> new EntityNotFoundException("CheckKnowledge not found with id: " + checkKnowledgeId));
 
-        int newScore = student.getScore() + score;
-        student.setScore(newScore);
+        student.addPassedTest(checkKnowledge);
         studentRepository.save(student);
     }
 

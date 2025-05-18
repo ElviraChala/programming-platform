@@ -58,8 +58,9 @@ public class StudentController {
     }
 
     @PostMapping("/{id}/add-score")
-    public ResponseEntity<Void> addScore(@PathVariable Long id, @RequestParam int score) {
-        studentService.addScore(id, score);
+    public ResponseEntity<Void> addScore(@PathVariable Long id,
+                                         @RequestParam("checkId") Long checkKnowledgeId) {
+        studentService.addScore(id, checkKnowledgeId);
         return ResponseEntity.ok().build();
     }
 

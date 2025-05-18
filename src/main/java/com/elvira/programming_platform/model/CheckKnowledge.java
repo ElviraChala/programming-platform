@@ -19,4 +19,7 @@ public class CheckKnowledge {
 
     @OneToOne(mappedBy = "checkKnowledge")
     private Lesson lesson;
+
+    @Column(name = "test_weight")
+    private int testWeight;
 }

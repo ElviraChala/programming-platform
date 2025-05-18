@@ -8,7 +8,9 @@ import com.elvira.programming_platform.dto.check.CheckKnowledgeDTO;
 import com.elvira.programming_platform.model.CheckKnowledge;
 import com.elvira.programming_platform.model.Question;
 import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
+
 import java.util.Collections;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,24 +29,24 @@ public class CheckKnowledgeService {
         this.questionConverter = questionConverter;
     }
 
-    public CheckKnowledgeDTO createCheckKnowledge (CheckKnowledgeDTO checkKnowledgeDTO){
+    public CheckKnowledgeDTO createCheckKnowledge(CheckKnowledgeDTO checkKnowledgeDTO) {
         CheckKnowledge checkKnowledgeModel = checkKnowledgeConverter.toModel(checkKnowledgeDTO);
         CheckKnowledge savedCheckKnowledge = checkKnowledgeRepository.save(checkKnowledgeModel);
         return checkKnowledgeConverter.toDTO(savedCheckKnowledge);
     }
 
-    public CheckKnowledgeDTO readCheckKnowledgeById(Long checkKnowledgeId){
+    public CheckKnowledgeDTO readCheckKnowledgeById(Long checkKnowledgeId) {
         CheckKnowledge findCheckKnowledge = checkKnowledgeRepository.findById(checkKnowledgeId).orElse(null);
-        if (findCheckKnowledge == null){
+        if (findCheckKnowledge == null) {
             return null;
         }
         return checkKnowledgeConverter.toDTO(findCheckKnowledge);
     }
 
-    public CheckKnowledgeDTO updateCheckKnowledge(CheckKnowledgeDTO checkKnowledgeDTO){
+    public CheckKnowledgeDTO updateCheckKnowledge(CheckKnowledgeDTO checkKnowledgeDTO) {
         Long id = checkKnowledgeDTO.getId();
         CheckKnowledge findCheckKnowledge = checkKnowledgeRepository.findById(id).orElse(null);
-        if(findCheckKnowledge == null){
+        if (findCheckKnowledge == null) {
             return null;
         }
 
@@ -57,8 +59,8 @@ public class CheckKnowledgeService {
         return checkKnowledgeConverter.toDTO(updated);
     }
 
-    public void deleteCheckKnowledge(Long id){
-        if(checkKnowledgeRepository.existsById(id)){
+    public void deleteCheckKnowledge(Long id) {
+        if (checkKnowledgeRepository.existsById(id)) {
             checkKnowledgeRepository.deleteById(id);
         }
     }
@@ -75,17 +77,16 @@ public class CheckKnowledgeService {
 
     public double evaluateAnswers(Long id, List<AnswerDTO> answers) {
         CheckKnowledge check = checkKnowledgeRepository.findById(id).orElse(null);
-        if (check == null) return 0.;
+        if (check == null) return 0;
 
         int correctCount = 0;
-        int total = check.getQuestions().size();
 
         List<Question> questionIds = check.getQuestions();
-        for(int i = 0; i < answers.size(); i++){
-            if(answers.get(i).getCurrentAnswer().equals(questionIds.get(i).getCorrectAnswer())){
+        for (int i = 0; i < answers.size(); i++) {
+            if (answers.get(i).getCurrentAnswer().equals(questionIds.get(i).getCorrectAnswer())) {
                 correctCount++;
             }
         }
-        return (double)correctCount * 100 / total;
+        return correctCount;
     }
 }
