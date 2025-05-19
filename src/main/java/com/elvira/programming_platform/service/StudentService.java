@@ -55,6 +55,7 @@ public class StudentService {
 
         existingStudent.setName(newStudentDTO.getName());
         existingStudent.setEmail(newStudentDTO.getEmail());
+        existingStudent.setIsFirst(newStudentDTO.getIsFirst());
 
         if (newStudentDTO.getPassword() != null && !newStudentDTO.getPassword().isBlank()) {
             String encodedPassword = passwordEncoder.encode(newStudentDTO.getPassword().trim());

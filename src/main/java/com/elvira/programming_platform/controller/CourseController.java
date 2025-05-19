@@ -32,7 +32,6 @@ public class CourseController {
 
     @GetMapping("/all")
     public ResponseEntity<List<CourseDTO>> readAllCourses() {
-        log.info(String.valueOf(courseService.readAllCourses()));
         return ResponseEntity.ok(courseService.readAllCourses());
     }
 
