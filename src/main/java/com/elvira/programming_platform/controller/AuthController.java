@@ -5,8 +5,6 @@ import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.security.JwtService;
 import com.elvira.programming_platform.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +17,6 @@ import java.util.Optional;
 @CrossOrigin
 public class AuthController {
 
-    private static final Logger log = LoggerFactory.getLogger(AuthController.class);
     private final AuthService authService;
     private final JwtService jwtService;
 
@@ -30,8 +27,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-        String infoLog = String.valueOf(request);
-        log.info(infoLog);
         return ResponseEntity.ok(authService.authenticate(request));
     }
 
