@@ -4,6 +4,7 @@ import com.elvira.programming_platform.coverter.StudentConverter;
 import com.elvira.programming_platform.dto.StudentDTO;
 import com.elvira.programming_platform.model.CheckKnowledge;
 import com.elvira.programming_platform.model.Student;
+import com.elvira.programming_platform.repository.ProgrammingTaskRepository;
 import com.elvira.programming_platform.repository.StudentRepository;
 import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,7 +34,13 @@ class StudentServiceTest {
         studentConverter = mock(StudentConverter.class);
         passwordEncoder = mock(PasswordEncoder.class);
         checkKnowledgeRepository = mock(CheckKnowledgeRepository.class);
-        studentService = new StudentService(studentRepository, studentConverter, passwordEncoder, checkKnowledgeRepository);
+        ProgrammingTaskRepository programmingTaskRepository = mock(ProgrammingTaskRepository.class);
+
+        studentService = new StudentService(studentRepository,
+                studentConverter,
+                passwordEncoder,
+                checkKnowledgeRepository,
+                programmingTaskRepository);
     }
 
     @Test
@@ -91,7 +98,7 @@ class StudentServiceTest {
         List<StudentDTO> result = studentService.readAllStudents();
 
         assertEquals(1, result.size());
-        assertEquals(dto, result.get(0));
+        assertEquals(dto, result.getFirst());
     }
 
     @Test

@@ -30,6 +30,14 @@ public class Student extends User {
     )
     private Set<CheckKnowledge> passedTests = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "student_completed_tasks",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "programming_task_id")
+    )
+    private Set<ProgrammingTask> completedTasks = new HashSet<>();
+
     public void setPassedTests(Set<CheckKnowledge> passedTests) {
         this.passedTests = passedTests;
         updateScore();
@@ -46,6 +54,18 @@ public class Student extends User {
             updateScore();
         }
         return removed;
+    }
+
+    public void setCompletedTasks(Set<ProgrammingTask> completedTasks) {
+        this.completedTasks = completedTasks;
+    }
+
+    public void addCompletedTask(ProgrammingTask programmingTask) {
+        this.completedTasks.add(programmingTask);
+    }
+
+    public boolean removeCompletedTask(ProgrammingTask programmingTask) {
+        return this.completedTasks.remove(programmingTask);
     }
 
     private Boolean isFirst = true;
