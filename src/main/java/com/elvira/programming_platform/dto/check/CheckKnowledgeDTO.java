@@ -11,4 +11,5 @@ public class CheckKnowledgeDTO {
     private Long id;
     private List<QuestionDTO> questions = new ArrayList<>();
     private Long lessonId;
+    private Integer testWeight;
 }

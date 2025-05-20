@@ -10,4 +10,5 @@ public class ProgrammingTaskDTO {
     private String starterCode;
     private String expectedOutput;
     private Long lessonId;
+    private Integer testWeight;
 }

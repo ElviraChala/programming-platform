@@ -19,6 +19,7 @@ public class ProgrammingTaskConverter {
         if (source.getId() != null && source.getId() > 0) {
             target.setId(source.getId());
         }
+        target.setTestWeight(source.getTestWeight());
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
         target.setStarterCode(source.getStarterCode());
@@ -30,6 +31,7 @@ public class ProgrammingTaskConverter {
     public ProgrammingTaskDTO toDTO(ProgrammingTask source) {
         ProgrammingTaskDTO target = new ProgrammingTaskDTO();
         target.setId(source.getId());
+        target.setTestWeight(source.getTestWeight());
         target.setTitle(source.getTitle());
         target.setDescription(source.getDescription());
         target.setStarterCode(source.getStarterCode());

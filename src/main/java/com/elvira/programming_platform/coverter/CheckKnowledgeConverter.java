@@ -23,6 +23,7 @@ public class CheckKnowledgeConverter {
     public CheckKnowledge toModel(CheckKnowledgeDTO source) {
         CheckKnowledge target = new CheckKnowledge();
         target.setId(source.getId());
+        target.setTestWeight(source.getTestWeight());
 
         if (source.getQuestions() != null) {
             List<Question> questions = source.getQuestions()
@@ -47,6 +48,7 @@ public class CheckKnowledgeConverter {
     public CheckKnowledgeDTO toDTO(CheckKnowledge source) {
         CheckKnowledgeDTO target = new CheckKnowledgeDTO();
         target.setId(source.getId());
+        target.setTestWeight(source.getTestWeight());
         if (source.getQuestions() != null) {
             List<QuestionDTO> questionDTOs = source.getQuestions()
                     .stream()
