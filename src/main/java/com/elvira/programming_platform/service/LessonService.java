@@ -6,6 +6,7 @@ import com.elvira.programming_platform.dto.LessonDTO;
 import com.elvira.programming_platform.dto.TheoryDTO;
 import com.elvira.programming_platform.model.CheckKnowledge;
 import com.elvira.programming_platform.model.Lesson;
+import com.elvira.programming_platform.model.Theory;
 import com.elvira.programming_platform.repository.LessonRepository;
 import com.elvira.programming_platform.repository.TheoryRepository;
 import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
@@ -74,13 +75,23 @@ public class LessonService {
 
     public LessonDTO readLessonById(Long id) {
         Lesson findLesson = lessonRepository.findById(id).orElseThrow();
-        LessonDTO lessonDTO = lessonConverter.toDTO(findLesson);
-        TheoryDTO theoryDTO = lessonDTO.getTheory();
+        Theory theory = findLesson.getTheory();
 
-        if (theoryDTO != null) {
-            theoryDTO.setFileName(theoryDTO.getFileName());
+        if (theory != null) {
+            theory.setFileName(theory.getFileName());
         }
-        return lessonDTO;
+
+        CheckKnowledge checkKnowledge = findLesson.getCheckKnowledge();
+        if (checkKnowledge == null) {
+            checkKnowledge = new CheckKnowledge();
+            checkKnowledge.setLesson(findLesson);
+            checkKnowledge.setTestWeight(1);
+            checkKnowledge = checkKnowledgeRepository.save(checkKnowledge);
+
+            findLesson.setCheckKnowledge(checkKnowledge);
+            findLesson = lessonRepository.save(findLesson);
+        }
+        return lessonConverter.toDTO(findLesson);
     }
 
     public List<LessonDTO> readAllLessons() {

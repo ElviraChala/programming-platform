@@ -34,6 +34,9 @@ public class LessonConverter {
             target.setId(source.getId());
             target.setTheory(theoryConverter.toModel(source.getTheory()));
             target.setCheckKnowledge(checkKnowledgeRepository.findById(source.getId()).orElse(null));
+        } else {
+            target.setCheckKnowledge(new CheckKnowledge());
+            target.setTheory(new Theory());
         }
         target.setName(source.getName());
         target.setOrderIndex(source.getOrderIndex());
