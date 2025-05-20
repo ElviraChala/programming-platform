@@ -31,6 +31,9 @@ public class User {
     @Column(name = "email", unique = true)
     protected String email;
 
+    @Column(name = "email_verified", nullable = false)
+    protected boolean emailVerified = false;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     protected Role role = Role.STUDENT;
