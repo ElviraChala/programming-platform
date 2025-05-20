@@ -7,6 +7,7 @@ import com.elvira.programming_platform.model.ProgrammingTask;
 import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.repository.ProgrammingTaskRepository;
 import com.elvira.programming_platform.repository.StudentRepository;
+import com.elvira.programming_platform.repository.VerificationTokenRepository;
 import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.spy;
 
 class StudentServiceTest {
 
@@ -38,12 +38,15 @@ class StudentServiceTest {
         passwordEncoder = mock(PasswordEncoder.class);
         checkKnowledgeRepository = mock(CheckKnowledgeRepository.class);
         programmingTaskRepository = mock(ProgrammingTaskRepository.class);
+        VerificationTokenRepository verificationTokenRepository = mock(VerificationTokenRepository.class);
+
 
         studentService = new StudentService(studentRepository,
                 studentConverter,
                 passwordEncoder,
                 checkKnowledgeRepository,
-                programmingTaskRepository);
+                programmingTaskRepository,
+                verificationTokenRepository);
     }
 
     @Test

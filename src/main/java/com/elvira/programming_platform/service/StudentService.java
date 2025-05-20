@@ -2,14 +2,11 @@ package com.elvira.programming_platform.service;
 
 import com.elvira.programming_platform.coverter.StudentConverter;
 import com.elvira.programming_platform.dto.StudentDTO;
-import com.elvira.programming_platform.model.CheckKnowledge;
-import com.elvira.programming_platform.model.Course;
-import com.elvira.programming_platform.model.Lesson;
-import com.elvira.programming_platform.model.ProgrammingTask;
-import com.elvira.programming_platform.model.Student;
+import com.elvira.programming_platform.model.*;
 import com.elvira.programming_platform.model.enums.Level;
 import com.elvira.programming_platform.repository.ProgrammingTaskRepository;
 import com.elvira.programming_platform.repository.StudentRepository;
+import com.elvira.programming_platform.repository.VerificationTokenRepository;
 import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,17 +24,19 @@ public class StudentService {
     private final PasswordEncoder passwordEncoder;
     private final CheckKnowledgeRepository checkKnowledgeRepository;
     private final ProgrammingTaskRepository programmingTaskRepository;
+    private final VerificationTokenRepository verificationTokenRepository;
 
     public StudentService(StudentRepository studentRepository,
                           StudentConverter studentConverter,
                           PasswordEncoder passwordEncoder,
                           CheckKnowledgeRepository checkKnowledgeRepository,
-                          ProgrammingTaskRepository programmingTaskRepository) {
+                          ProgrammingTaskRepository programmingTaskRepository, VerificationTokenRepository verificationTokenRepository) {
         this.studentRepository = studentRepository;
         this.studentConverter = studentConverter;
         this.passwordEncoder = passwordEncoder;
         this.checkKnowledgeRepository = checkKnowledgeRepository;
         this.programmingTaskRepository = programmingTaskRepository;
+        this.verificationTokenRepository = verificationTokenRepository;
     }
 
     public StudentDTO createStudent(StudentDTO studentDTO) {
@@ -84,7 +83,12 @@ public class StudentService {
     }
 
     public void deleteStudent(Long id) {
-        if (studentRepository.existsById(id)) {
+        Student student = studentRepository.findById(id).orElse(null);
+        if (student != null) {
+            VerificationToken verificationToken = verificationTokenRepository.findByUser(student).orElse(null);
+            if (verificationToken != null) {
+                verificationTokenRepository.delete(verificationToken);
+            }
             studentRepository.deleteById(id);
         }
     }
