@@ -50,7 +50,7 @@ public class AuthService {
         verificationTokenRepository.save(verificationToken);
 
         // Send verification email
-        String verificationUrl = "http://dev-spark.fun/api/auth/verify-email?token=" + token;
+        String verificationUrl = "http://dev-spark.fun/auth/verify-email?token=" + token;
         String emailText = "Будь ласка, підтвердіть свою електронну адресу, перейшовши за посиланням:\n" + verificationUrl;
         emailService.sendSimpleEmail(student.getEmail(), "Підтвердження електронної адреси", emailText);
 
