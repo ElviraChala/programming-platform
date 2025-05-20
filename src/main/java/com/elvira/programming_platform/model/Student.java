@@ -58,14 +58,20 @@ public class Student extends User {
 
     public void setCompletedTasks(Set<ProgrammingTask> completedTasks) {
         this.completedTasks = completedTasks;
+        updateScore();
     }
 
     public void addCompletedTask(ProgrammingTask programmingTask) {
         this.completedTasks.add(programmingTask);
+        updateScore();
     }
 
     public boolean removeCompletedTask(ProgrammingTask programmingTask) {
-        return this.completedTasks.remove(programmingTask);
+        boolean removed = this.completedTasks.remove(programmingTask);
+        if (removed) {
+            updateScore();
+        }
+        return removed;
     }
 
     private Boolean isFirst = true;
@@ -80,11 +86,21 @@ public class Student extends User {
     }
 
     public void updateScore() {
-        if (passedTests == null || passedTests.isEmpty()) {
-            return;
+        int testsScore = 0;
+        int tasksScore = 0;
+
+        if (passedTests != null && !passedTests.isEmpty()) {
+            testsScore = passedTests.stream()
+                    .mapToInt(CheckKnowledge::getTestWeight)
+                    .sum();
         }
-        this.score = passedTests.stream()
-                .mapToInt(CheckKnowledge::getTestWeight)
-                .sum();
+
+        if (completedTasks != null && !completedTasks.isEmpty()) {
+            tasksScore = completedTasks.stream()
+                    .mapToInt(ProgrammingTask::getTestWeight)
+                    .sum();
+        }
+
+        this.score = testsScore + tasksScore;
     }
 }

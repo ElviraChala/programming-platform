@@ -3,6 +3,7 @@ package com.elvira.programming_platform.service;
 import com.elvira.programming_platform.coverter.StudentConverter;
 import com.elvira.programming_platform.dto.StudentDTO;
 import com.elvira.programming_platform.model.CheckKnowledge;
+import com.elvira.programming_platform.model.ProgrammingTask;
 import com.elvira.programming_platform.model.Student;
 import com.elvira.programming_platform.repository.ProgrammingTaskRepository;
 import com.elvira.programming_platform.repository.StudentRepository;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -26,6 +28,7 @@ class StudentServiceTest {
     private StudentConverter studentConverter;
     private PasswordEncoder passwordEncoder;
     private CheckKnowledgeRepository checkKnowledgeRepository;
+    private ProgrammingTaskRepository programmingTaskRepository;
     private StudentService studentService;
 
     @BeforeEach
@@ -34,7 +37,7 @@ class StudentServiceTest {
         studentConverter = mock(StudentConverter.class);
         passwordEncoder = mock(PasswordEncoder.class);
         checkKnowledgeRepository = mock(CheckKnowledgeRepository.class);
-        ProgrammingTaskRepository programmingTaskRepository = mock(ProgrammingTaskRepository.class);
+        programmingTaskRepository = mock(ProgrammingTaskRepository.class);
 
         studentService = new StudentService(studentRepository,
                 studentConverter,
@@ -219,6 +222,33 @@ class StudentServiceTest {
 
         // Assert
         verify(student).addPassedTest(checkKnowledge);
+        verify(studentRepository).save(student);
+    }
+
+    @Test
+    void testAddCompletedTask() {
+        // Arrange
+        Long studentId = 1L;
+        Long taskId = 2L;
+
+        Student student = new Student(); // Using real object to test score calculation
+        student.setId(studentId);
+        student.setScore(0); // Ensure starting score is 0
+        student.setCourses(new HashSet<>()); // Initialize courses to prevent NullPointerException
+
+        ProgrammingTask programmingTask = new ProgrammingTask();
+        programmingTask.setId(taskId);
+        programmingTask.setTestWeight(15);
+
+        when(studentRepository.findById(studentId)).thenReturn(Optional.of(student));
+        when(programmingTaskRepository.findById(taskId)).thenReturn(Optional.of(programmingTask));
+
+        // Act
+        studentService.addCompletedTask(studentId, taskId);
+
+        // Assert
+        assertEquals(15, student.getScore(), "Student score should be updated with the task's testWeight");
+        assertTrue(student.getCompletedTasks().contains(programmingTask), "Task should be added to completed tasks");
         verify(studentRepository).save(student);
     }
 }

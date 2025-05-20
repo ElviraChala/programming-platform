@@ -30,6 +30,9 @@ public class ProgrammingTask {
     @Column(name = "expected_output")
     private String expectedOutput;
 
+    @Column(name = "test_weight")
+    private int testWeight;
+
     @ManyToOne
     @JoinColumn(name = "lesson_id")
     @JsonBackReference
