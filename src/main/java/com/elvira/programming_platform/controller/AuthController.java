@@ -62,12 +62,12 @@ public class AuthController {
     }
 
     @GetMapping("/verify-email")
-    public ResponseEntity<String> verifyEmail(@RequestParam String token) {
+    public ResponseEntity<Void> verifyEmail(@RequestParam String token) {
         boolean verified = authService.verifyEmail(token);
         if (verified) {
-            return ResponseEntity.ok("Email successfully verified!");
+            return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid or expired token");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
