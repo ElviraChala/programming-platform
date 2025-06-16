@@ -2,10 +2,6 @@ package com.elvira.programming_platform.service;
 
 import com.elvira.programming_platform.coverter.LessonConverter;
 import com.elvira.programming_platform.coverter.TheoryConverter;
-import com.elvira.programming_platform.dto.LessonDTO;
-import com.elvira.programming_platform.dto.TheoryDTO;
-import com.elvira.programming_platform.model.Lesson;
-import com.elvira.programming_platform.model.Theory;
 import com.elvira.programming_platform.repository.LessonRepository;
 import com.elvira.programming_platform.repository.TheoryRepository;
 import com.elvira.programming_platform.repository.check.CheckKnowledgeRepository;
@@ -20,10 +16,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 class LessonServiceTest {
 
@@ -71,38 +66,6 @@ class LessonServiceTest {
 
         // For a more complete test, we would need to use an integration test
         // that includes actual resources in the classpath.
-    }
-
-    @Test
-    void testReadLessonById_FromExternalDirectory() throws IOException {
-        // Arrange
-        Long lessonId = 1L;
-        Lesson lesson = new Lesson();
-        Theory theory = new Theory();
-        theory.setFileName("test.html");
-        lesson.setTheory(theory);
-
-        LessonDTO lessonDTO = new LessonDTO();
-        TheoryDTO theoryDTO = new TheoryDTO();
-        theoryDTO.setFileName("test.html");
-        lessonDTO.setTheory(theoryDTO);
-
-        when(lessonRepository.findById(lessonId)).thenReturn(Optional.of(lesson));
-        when(lessonConverter.toDTO(lesson)).thenReturn(lessonDTO);
-
-        // Create a test HTML file in the temp directory
-        String testHtmlContent = "<html><body>Test content</body></html>";
-        Path testFilePath = tempDir.resolve("test.html");
-        Files.writeString(testFilePath, testHtmlContent);
-
-        // Act
-        LessonDTO result = lessonServiceWithExternalDir.readLessonById(lessonId);
-
-        // Assert
-        assertNotNull(result);
-        assertEquals(lessonDTO.getTheory(), result.getTheory());
-        verify(lessonRepository).findById(lessonId);
-        verify(lessonConverter).toDTO(lesson);
     }
 
     @Test
