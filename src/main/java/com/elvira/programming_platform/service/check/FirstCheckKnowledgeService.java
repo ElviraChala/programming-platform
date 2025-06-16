@@ -23,7 +23,9 @@ public class FirstCheckKnowledgeService {
     private final StudentRepository studentRepository;
 
     public FirstCheckKnowledgeService(FirstCheckKnowledgeRepository firstCheckKnowledgeRepository,
-                                      FirstCheckKnowledgeConverter firstCheckKnowledgeConverter, QuestionRepository questionRepository, StudentRepository studentRepository) {
+                                      FirstCheckKnowledgeConverter firstCheckKnowledgeConverter,
+                                      QuestionRepository questionRepository,
+                                      StudentRepository studentRepository) {
         this.firstCheckKnowledgeRepository = firstCheckKnowledgeRepository;
         this.firstCheckKnowledgeConverter = firstCheckKnowledgeConverter;
         this.questionRepository = questionRepository;
@@ -36,7 +38,7 @@ public class FirstCheckKnowledgeService {
     }
 
     public CheckEvaluationResultDTO checkAnswer(List<AnswerDTO> answerDTOS) {
-        double totalScore = 0;
+        double totalScore;
 
         int lowScore = 0;
         int mediumScore = 0;
@@ -46,9 +48,9 @@ public class FirstCheckKnowledgeService {
         int mediumQuestionCount = 0;
         int highQuestionCount = 0;
 
-        double lowScorePercentage = 0;
-        double mediumScorePercentage = 0;
-        double highScorePercentage = 0;
+        double lowScorePercentage;
+        double mediumScorePercentage;
+        double highScorePercentage;
 
         FirstCheckKnowledgeDTO check = getFirstCheckKnowledge();
         List<Long> questionIds = check.getQuestionIds();
@@ -71,7 +73,6 @@ public class FirstCheckKnowledgeService {
                 case HIGH:
                     highQuestionCount++;
             }
-
 
             if (answer.equals(correctAnswer)) {
                 switch (level) {
