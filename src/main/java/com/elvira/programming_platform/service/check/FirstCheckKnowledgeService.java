@@ -10,6 +10,7 @@ import com.elvira.programming_platform.model.enums.Level;
 import com.elvira.programming_platform.repository.QuestionRepository;
 import com.elvira.programming_platform.repository.StudentRepository;
 import com.elvira.programming_platform.repository.check.FirstCheckKnowledgeRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -119,5 +120,23 @@ public class FirstCheckKnowledgeService {
         student.setIsFirst(false);
         studentRepository.save(student);
         return newLevel;
+    }
+
+    public FirstCheckKnowledgeDTO createFirstCheckKnowledge(FirstCheckKnowledgeDTO dto) {
+        FirstCheckKnowledge firstCheckKnowledge = firstCheckKnowledgeConverter.toModel(dto);
+        firstCheckKnowledge.setId(null); // Ensure we're creating a new entity
+        FirstCheckKnowledge savedFirstCheckKnowledge = firstCheckKnowledgeRepository.save(firstCheckKnowledge);
+        return firstCheckKnowledgeConverter.toDTO(savedFirstCheckKnowledge);
+    }
+
+    public FirstCheckKnowledgeDTO updateFirstCheckKnowledge(Long id, FirstCheckKnowledgeDTO dto) {
+        if (!firstCheckKnowledgeRepository.existsById(id)) {
+            throw new EntityNotFoundException("FirstCheckKnowledge with id " + id + " not found");
+        }
+
+        FirstCheckKnowledge firstCheckKnowledge = firstCheckKnowledgeConverter.toModel(dto);
+        firstCheckKnowledge.setId(id); // Ensure we're updating the correct entity
+        FirstCheckKnowledge updatedFirstCheckKnowledge = firstCheckKnowledgeRepository.save(firstCheckKnowledge);
+        return firstCheckKnowledgeConverter.toDTO(updatedFirstCheckKnowledge);
     }
 }

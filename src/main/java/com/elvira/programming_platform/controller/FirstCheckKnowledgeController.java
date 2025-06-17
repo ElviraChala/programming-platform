@@ -9,6 +9,7 @@ import com.elvira.programming_platform.security.JwtService;
 import com.elvira.programming_platform.service.check.FirstCheckKnowledgeService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,5 +49,28 @@ public class FirstCheckKnowledgeController {
 
         CheckResultDTO result = new CheckResultDTO(checkResult.getTotalScore(), level);
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<FirstCheckKnowledgeDTO> createFirstCheckKnowledge(@RequestBody FirstCheckKnowledgeDTO dto) {
+        try {
+            FirstCheckKnowledgeDTO createdDto = firstCheckKnowledgeService.createFirstCheckKnowledge(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdDto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FirstCheckKnowledgeDTO> updateFirstCheckKnowledge(@PathVariable Long id, 
+                                                                           @RequestBody FirstCheckKnowledgeDTO dto) {
+        try {
+            FirstCheckKnowledgeDTO updatedDto = firstCheckKnowledgeService.updateFirstCheckKnowledge(id, dto);
+            return ResponseEntity.ok(updatedDto);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 }
